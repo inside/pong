@@ -55,7 +55,7 @@ Pong = function()
         {
             this.lp.moveUp();
         }
-        if (this.isLpGoingDown)
+        else if (this.isLpGoingDown)
         {
             this.lp.moveDown();
         }
@@ -63,7 +63,7 @@ Pong = function()
         {
             this.rp.moveUp();
         }
-        if (this.isRpGoingDown)
+        else if (this.isRpGoingDown)
         {
             this.rp.moveDown();
         }
@@ -160,6 +160,7 @@ Ball = function(p)
     this.id        = p.id;
     this.container = p.container;
     this.size      = p.size;
+    this.halfSize  = p.size / 2;
     this.x         = p.x;
     this.y         = p.y;
     this.speed     = 3;
@@ -185,61 +186,58 @@ Ball = function(p)
         var x = this.x + (this.vX * this.speed);
         var y = this.y + (this.vY * this.speed);
 
-       if (x <= this.size / 2)
-//       if (this.x <= 0)
-       {
-           this.vX = this.vX * -1;
-           this.x = this.size / 2;
-//           console.log('you loose');
-       }
-       else if (x >= this.container.width - this.size / 2)
-       {
-           this.vX = this.vX * -1;
-           this.x = this.container.width - this.size / 2;
-//           console.log('you loose');
-       }
-       else
-       {
-           this.x = x;
-       }
+        if (x <= this.halfSize)
+        {
+            this.x = this.halfSize;
+            console.log('left player you loose');
+        }
+        else if (x >= this.container.width - this.halfSize)
+        {
+            this.x = this.container.width - this.halfSize;
+            console.log('right player you loose');
+        }
+        else
+        {
+            this.x = x;
+        }
 
-       if (this.x <= (this.size / 2) + this.container.lp.width)
-       {
-           if (this.y >= $(this.container.lp.id).offsetTop && this.y <= $(this.container.lp.id).offsetTop + this.container.lp.height)
-           {
-               this.vX = this.vX * -1;
-           }
-       }
-       if (this.x >= (this.container.width - this.size / 2) - this.container.rp.width)
-       {
-           if (this.y >= $(this.container.rp.id).offsetTop && this.y <= $(this.container.rp.id).offsetTop + this.container.rp.height)
-           {
-               this.vX = this.vX * -1;
-           }
-       }
+        if (this.x <= (this.halfSize) + this.container.lp.width)
+        {
+            if (this.y >= $(this.container.lp.id).offsetTop && this.y <= $(this.container.lp.id).offsetTop + this.container.lp.height)
+            {
+                this.vX *= -1;
+            }
+        }
+        if (this.x >= (this.container.width - this.halfSize) - this.container.rp.width)
+        {
+            if (this.y >= $(this.container.rp.id).offsetTop && this.y <= $(this.container.rp.id).offsetTop + this.container.rp.height)
+            {
+                this.vX *= -1;
+            }
+        }
 
-       if (y <= this.size / 2)
-       {
-           this.vY = this.vY * -1;
-           this.y = this.size / 2;
-       }
-       else if (y >= this.container.height - this.size / 2)
-       {
-           this.vY = this.vY * -1;
-           this.y = this.container.height - this.size / 2;
-       }
-       else
-       {
-           this.y = y;
-       }
+        if (y <= this.halfSize)
+        {
+            this.vY *= -1;
+            this.y = this.halfSize;
+        }
+        else if (y >= this.container.height - this.halfSize)
+        {
+            this.vY *= -1;
+            this.y = this.container.height - this.halfSize;
+        }
+        else
+        {
+            this.y = y;
+        }
 
-       this.setPosition(this.x, this.y);
+        this.setPosition(this.x, this.y);
     };
 
     this.setPosition = function(x, y)
     {
-       this.el.style.left = (x - this.size / 2) + 'px';
-       this.el.style.top = (y - this.size / 2)  + 'px';
+       this.el.style.left = (x - this.halfSize) + 'px';
+       this.el.style.top = (y - this.halfSize)  + 'px';
     };
 }
 
