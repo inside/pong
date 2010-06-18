@@ -1,3 +1,21 @@
+//http://www.developpez.net/forums/d776649/autres-langages/algorithmes/detecter-lintersection-entre-rectangles/
+function hoverlap(rect1, rect2)
+{
+//    boolean hoverlap = (x1<x2+w2) && (x2<x1+w1);
+    return (rect1.el.offsetLeft < rect2.el.offsetLeft + rect2.width) && (rect2.el.offsetLeft < rect1.el.offsetLeft + rect1.width);
+}
+
+function voverlap(rect1, rect2)
+{
+//    boolean voverlap = (y1<y2+h2) && (y2<y1+h1);
+    return (rect1.el.offsetTop < rect2.el.offsetTop + rect2.height) && (rect2.el.offsetTop <rect1.el.offsetTop + rect1.height)
+}
+
+function overlap(rect1, rect2)
+{
+    return hoverlap(rect1, rect2) && voverlap(rect1, rect2);
+}
+
 Pong = function()
 {
     this.gameArea      = null;
@@ -159,7 +177,7 @@ Ball = function(p)
 {
     this.id        = p.id;
     this.container = p.container;
-    this.size      = p.size;
+    this.size      = this.width = this.height = p.size;
     this.halfSize  = p.size / 2;
     this.x         = p.x;
     this.y         = p.y;
@@ -186,6 +204,7 @@ Ball = function(p)
         var x = this.x + (this.vX * this.speed);
         var y = this.y + (this.vY * this.speed);
 
+        // Left and right walls
         if (x <= this.halfSize)
         {
             this.x = this.halfSize;
@@ -201,21 +220,31 @@ Ball = function(p)
             this.x = x;
         }
 
-        if (this.x <= (this.halfSize) + this.container.lp.width)
+        // Paddles rebound
+        if (overlap(this.container.lp, this))
         {
-            if (this.y >= $(this.container.lp.id).offsetTop && this.y <= $(this.container.lp.id).offsetTop + this.container.lp.height)
-            {
-                this.vX *= -1;
-            }
+            this.vX *= -1;
         }
-        if (this.x >= (this.container.width - this.halfSize) - this.container.rp.width)
+//        if (this.x <= (this.halfSize) + this.container.lp.width)
+//        {
+//            if (this.y >= $(this.container.lp.id).offsetTop && this.y <= $(this.container.lp.id).offsetTop + this.container.lp.height)
+//            {
+//                this.vX *= -1;
+//            }
+//        }
+        if (overlap(this.container.rp, this))
         {
-            if (this.y >= $(this.container.rp.id).offsetTop && this.y <= $(this.container.rp.id).offsetTop + this.container.rp.height)
-            {
-                this.vX *= -1;
-            }
+            this.vX *= -1;
         }
+//        if (this.x >= (this.container.width - this.halfSize) - this.container.rp.width)
+//        {
+//            if (this.y >= $(this.container.rp.id).offsetTop && this.y <= $(this.container.rp.id).offsetTop + this.container.rp.height)
+//            {
+//                this.vX *= -1;
+//            }
+//        }
 
+        // Floor and ceiling
         if (y <= this.halfSize)
         {
             this.vY *= -1;
