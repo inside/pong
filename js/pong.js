@@ -1,13 +1,10 @@
-//http://www.developpez.net/forums/d776649/autres-langages/algorithmes/detecter-lintersection-entre-rectangles/
 function hoverlap(rect1, rect2)
 {
-//    boolean hoverlap = (x1<x2+w2) && (x2<x1+w1);
     return (rect1.x < rect2.x + rect2.width) && (rect2.x < rect1.x + rect1.width);
 }
 
 function voverlap(rect1, rect2)
 {
-//    boolean voverlap = (y1<y2+h2) && (y2<y1+h1);
     return (rect1.y < rect2.y + rect2.height) && (rect2.y < rect1.y + rect1.height)
 }
 
@@ -16,21 +13,21 @@ function overlap(rect1, rect2)
     return hoverlap(rect1, rect2) && voverlap(rect1, rect2);
 }
 
-Pong = function()
+var Pong = Class.create(
 {
-    this.gameArea      = null;
-    this.intervalId    = null;
-    this.isPaused      = false;
-    this.width         = 200;
-    this.height        = 200;
-    this.lp            = null;
-    this.rp            = null;
-    this.isLpGoingUp   = false;
-    this.isLpGoingDown = false;
-    this.isRpGoingUp   = false;
-    this.isRpGoingDown = false;
+    gameArea      : null,
+    intervalId    : null,
+    isPaused      : false,
+    width         : 200,
+    height        : 200,
+    lp            : null,
+    rp            : null,
+    isLpGoingUp   : false,
+    isLpGoingDown : false,
+    isRpGoingUp   : false,
+    isRpGoingDown : false,
 
-    this.init = function()
+    initialize: function(p)
     {
         this.gameArea = document.createElement('div');
         this.gameArea.setAttribute('id', 'pong-game-area');
@@ -45,7 +42,6 @@ Pong = function()
             'x': 0,
             'y': 70,
         });
-        this.lp.init();
         this.rp = new Paddle(
         {
             'container': this,
@@ -55,7 +51,6 @@ Pong = function()
             'x': 190,
             'y': 70,
         });
-        this.rp.init();
         this.ball = new Ball(
         {
             'container': this,
@@ -65,16 +60,14 @@ Pong = function()
             'x': 90,
             'y': 90,
         });
-        this.ball.init();
 
         // handle keystrokes
         document.observe('keydown', this.keydownHandler.bind(this));
         document.observe('keyup', this.keyupHandler.bind(this));
 
         this.start();
-    };
-
-    this.update = function()
+    },
+    update: function()
     {
         if (this.isLpGoingUp)
         {
@@ -94,9 +87,8 @@ Pong = function()
         }
 
         this.ball.move();
-    };
-
-    this.keydownHandler = function(e)
+    },
+    keydownHandler: function(e)
     {
         if (e.keyCode == 65) // A
         {
@@ -118,9 +110,8 @@ Pong = function()
             this.isRpGoingUp = false;
             this.isRpGoingDown = true;
         }
-    };
-
-    this.keyupHandler = function(e)
+    },
+    keyupHandler: function(e)
     {
         if (e.keyCode == 65) // A
         {
@@ -142,20 +133,17 @@ Pong = function()
         {
             this.toggleStartPause();
         }
-    };
-
-    this.start = function()
+    },
+    start: function()
     {
         this.intervalId = setInterval(this.update.bind(this), 30);
-    };
-
-    this.stop = function()
+    },
+    stop: function()
     {
         clearInterval(this.intervalId);
         this.intervalId = null;
-    };
-
-    this.toggleStartPause = function()
+    },
+    toggleStartPause: function()
     {
         if (this.isPaused)
         {
@@ -167,31 +155,52 @@ Pong = function()
             this.isPaused = true;
             this.stop();
         }
-    };
-};
+    }
+});
 
-Paddle = function(p)
+var Equipement = Class.create(
 {
-    this.id        = p.id;
-    this.width     = p.width;
-    this.height    = p.height;
-    this.x         = p.x;
-    this.y         = p.y;
-    this.container = p.container;
-    this.speed     = 10;
-    this.el        = null;
+    id         : null,
+    x          : null,
+    y          : null,
+    width      : null,
+    height     : null,
+    container  : null,
+    speed      : null,
+    domElement : null,
 
-    this.init = function()
+    initialize: function(p)
     {
+        this.id        = p.id;
+        this.width     = p.width;
+        this.height    = p.height;
+        this.x         = p.x;
+        this.y         = p.y;
+        this.container = p.container;
+
         var el = document.createElement('div');
         el.setAttribute('id', this.id);
         el.setAttribute('style', 'width: ' + this.width + 'px; height: ' + this.height + 'px;');
         this.container.gameArea.appendChild(el);
-        this.el = $(this.id);
+        this.domElement = $(this.id);
         this.setPosition(this.x, this.y);
-    };
+    },
+    setPosition: function(x, y)
+    {
+       this.domElement.style.left = x + 'px';
+       this.domElement.style.top  = y + 'px';
+    }
+});
 
-    this.moveUp = function()
+var Paddle = Class.create(Equipement,
+{
+    speed: 10,
+
+    initialize: function($super, p)
+    {
+        $super(p);
+    },
+    moveUp: function()
     {
         var y = this.y - this.speed;
 
@@ -205,9 +214,8 @@ Paddle = function(p)
         }
 
         this.setPosition(this.x, this.y);
-    };
-
-    this.moveDown = function()
+    },
+    moveDown: function()
     {
         var y = this.y + this.speed;
 
@@ -221,39 +229,20 @@ Paddle = function(p)
         }
 
         this.setPosition(this.x, this.y);
-    };
+    }
+});
 
-    this.setPosition = function(x, y)
-    {
-       this.el.style.left = x  + 'px';
-       this.el.style.top  = y  + 'px';
-    };
-};
-
-Ball = function(p)
+var Ball = Class.create(Equipement,
 {
-    this.id        = p.id;
-    this.container = p.container;
-    this.width     = p.width;
-    this.height    = p.height;
-    this.x         = p.x;
-    this.y         = p.y;
-    this.speed     = 3;
-    this.vX        = 1;
-    this.vY        = 0.5;
-    this.el        = null;
+    speed : 3,
+    vX    : 1,
+    vY    : 0.5,
 
-    this.init = function()
+    initialize: function($super, p)
     {
-        var el = document.createElement('div');
-        el.setAttribute('id', this.id);
-        el.setAttribute('style', 'width: ' + this.width + 'px; height: ' + this.height + 'px;');
-        this.container.gameArea.appendChild(el);
-        this.el = $(this.id);
-        this.setPosition(this.x, this.y);
-    };
-
-    this.move = function()
+        $super(p);
+    },
+    move: function()
     {
         var x = this.x + (this.vX * this.speed);
         var y = this.y + (this.vY * this.speed);
@@ -303,17 +292,10 @@ Ball = function(p)
         }
 
         this.setPosition(this.x, this.y);
-    };
-
-    this.setPosition = function(x, y)
-    {
-       this.el.style.left = x + 'px';
-       this.el.style.top  = y + 'px';
-    };
-}
+    }
+});
 
 document.observe('dom:loaded', function()
 {
     var pong = new Pong();
-    pong.init();
 });
