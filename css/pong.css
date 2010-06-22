@@ -10,18 +10,7 @@
 #pong-right
 {
     position: absolute;
-    top: 70px;
     background-color: black;
-}
-
-#pong-left
-{
-    left: 0;
-}
-
-#pong-right
-{
-    right: 0;
 }
 
 #pong-ball
