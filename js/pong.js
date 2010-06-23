@@ -1,18 +1,3 @@
-function hoverlap(rect1, rect2)
-{
-    return (rect1.x < rect2.x + rect2.width) && (rect2.x < rect1.x + rect1.width);
-}
-
-function voverlap(rect1, rect2)
-{
-    return (rect1.y < rect2.y + rect2.height) && (rect2.y < rect1.y + rect1.height)
-}
-
-function overlap(rect1, rect2)
-{
-    return hoverlap(rect1, rect2) && voverlap(rect1, rect2);
-}
-
 var Pong = Class.create(
 {
     gameArea      : null,
@@ -189,7 +174,19 @@ var Equipement = Class.create(
     {
        this.domElement.style.left = x + 'px';
        this.domElement.style.top  = y + 'px';
-    }
+   },
+   hoverlap: function(rectangle)
+   {
+       return (this.x < rectangle.x + rectangle.width) && (rectangle.x < this.x + this.width);
+   },
+   voverlap: function(rectangle)
+   {
+       return (this.y < rectangle.y + rectangle.height) && (rectangle.y < this.y + this.height)
+   },
+   overlap: function(rectangle)
+   {
+       return this.hoverlap(rectangle) && this.voverlap(rectangle);
+   },
 });
 
 var Paddle = Class.create(Equipement,
@@ -264,15 +261,17 @@ var Ball = Class.create(Equipement,
         }
 
         // Paddles rebound
-        if (overlap(this.container.lp, this))
+        if (this.overlap(this.container.lp))
         {
             this.x = this.container.lp.x + this.container.lp.width;
             this.vX *= -1;
+            console.log(this.y);
         }
-        else if (overlap(this.container.rp, this))
+        else if (this.overlap(this.container.rp))
         {
             this.x = (this.container.rp.x - this.width) + (this.vX * this.speed);
             this.vX *= -1;
+            console.log(this.y);
         }
 
         // Floor and ceiling
