@@ -7,10 +7,7 @@ var Pong = Class.create(
     height        : 200,
     lp            : null,
     rp            : null,
-    isLpGoingUp   : false,
-    isLpGoingDown : false,
-    isRpGoingUp   : false,
-    isRpGoingDown : false,
+    ball          : null,
 
     initialize: function(p)
     {
@@ -54,19 +51,19 @@ var Pong = Class.create(
     },
     update: function()
     {
-        if (this.isLpGoingUp)
+        if (this.lp.isGoingUp)
         {
             this.lp.moveUp();
         }
-        else if (this.isLpGoingDown)
+        else if (this.lp.isGoingDown)
         {
             this.lp.moveDown();
         }
-        if (this.isRpGoingUp)
+        if (this.rp.isGoingUp)
         {
             this.rp.moveUp();
         }
-        else if (this.isRpGoingDown)
+        else if (this.rp.isGoingDown)
         {
             this.rp.moveDown();
         }
@@ -77,46 +74,46 @@ var Pong = Class.create(
     {
         if (e.keyCode == 65) // A
         {
-            this.isLpGoingUp = true;
-            this.isLpGoingDown = false;
+            this.lp.isGoingUp   = true;
+            this.lp.isGoingDown = false;
         }
         else if (e.keyCode == 81) // Q
         {
-            this.isLpGoingUp = false;
-            this.isLpGoingDown = true;
+            this.lp.isGoingUp   = false;
+            this.lp.isGoingDown = true;
         }
         else if (e.keyCode == 38) // Up arrow
         {
-            this.isRpGoingUp = true;
-            this.isRpGoingDown = false;
+            this.rp.isGoingUp   = true;
+            this.rp.isGoingDown = false;
         }
         else if (e.keyCode == 40) // Down arrow
         {
-            this.isRpGoingUp = false;
-            this.isRpGoingDown = true;
+            this.rp.isGoingUp   = false;
+            this.rp.isGoingDown = true;
         }
     },
     keyupHandler: function(e)
     {
         if (e.keyCode == 65) // A
         {
-            this.isLpGoingUp = false;
+            this.lp.isGoingUp = false;
         }
         else if (e.keyCode == 81) // Q
         {
-            this.isLpGoingDown = false;
+            this.lp.isGoingDown = false;
         }
         else if (e.keyCode == 38) // Up arrow
         {
-            this.isRpGoingUp = false;
+            this.rp.isGoingUp = false;
         }
         else if (e.keyCode == 40) // Down arrow
         {
-            this.isRpGoingDown = false;
+            this.rp.isGoingDown = false;
         }
         else if (e.keyCode == 80) // P pause
         {
-            this.toggleStartPause();
+            this.toggleStartStop();
         }
     },
     start: function()
@@ -128,7 +125,7 @@ var Pong = Class.create(
         clearInterval(this.intervalId);
         this.intervalId = null;
     },
-    toggleStartPause: function()
+    toggleStartStop: function()
     {
         if (this.isPaused)
         {
@@ -187,11 +184,20 @@ var Equipement = Class.create(
    {
        return this.hoverlap(rectangle) && this.voverlap(rectangle);
    },
+   himpact: function(rectangle)
+   {
+       console.log('ball y: ' + this.y);
+       console.log('rectangle y : '+ rectangle.y);
+       console.log(this.y - rectangle.y);
+       return this.y - rectangle.y;
+   }
 });
 
 var Paddle = Class.create(Equipement,
 {
-    speed: 10,
+    speed       : 10,
+    isGoingUp   : false,
+    isGoingDown : false,
 
     initialize: function($super, p)
     {
@@ -226,6 +232,10 @@ var Paddle = Class.create(Equipement,
         }
 
         this.setPosition(this.x, this.y);
+    },
+    isMoving: function()
+    {
+        return this.isGoingUp || this.isGoingDown;
     }
 });
 
@@ -233,7 +243,7 @@ var Ball = Class.create(Equipement,
 {
     speed : 3,
     vX    : 1,
-    vY    : 0.5,
+    vY    : 0.3,
 
     initialize: function($super, p)
     {
@@ -265,13 +275,22 @@ var Ball = Class.create(Equipement,
         {
             this.x = this.container.lp.x + this.container.lp.width;
             this.vX *= -1;
-            console.log(this.y);
+
+            if (this.container.lp.isMoving())
+            {
+                this.vY *= -1
+            }
         }
         else if (this.overlap(this.container.rp))
         {
             this.x = (this.container.rp.x - this.width) + (this.vX * this.speed);
             this.vX *= -1;
-            console.log(this.y);
+
+            this.himpact(this.container.rp);
+            if (this.container.rp.isMoving())
+            {
+                this.vY *= -1
+            }
         }
 
         // Floor and ceiling
