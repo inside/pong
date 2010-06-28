@@ -171,26 +171,19 @@ var Equipement = Class.create(
     {
        this.domElement.style.left = x + 'px';
        this.domElement.style.top  = y + 'px';
-   },
-   hoverlap: function(rectangle)
-   {
-       return (this.x < rectangle.x + rectangle.width) && (rectangle.x < this.x + this.width);
-   },
-   voverlap: function(rectangle)
-   {
-       return (this.y < rectangle.y + rectangle.height) && (rectangle.y < this.y + this.height)
-   },
-   overlap: function(rectangle)
-   {
-       return this.hoverlap(rectangle) && this.voverlap(rectangle);
-   },
-   himpact: function(rectangle)
-   {
-       console.log('ball y: ' + this.y);
-       console.log('rectangle y : '+ rectangle.y);
-       console.log(this.y - rectangle.y);
-       return this.y - rectangle.y;
-   }
+    },
+    hoverlap: function(rectangle)
+    {
+        return (this.x < rectangle.x + rectangle.width) && (rectangle.x < this.x + this.width);
+    },
+    voverlap: function(rectangle)
+    {
+        return (this.y < rectangle.y + rectangle.height) && (rectangle.y < this.y + this.height)
+    },
+    overlap: function(rectangle)
+    {
+        return this.hoverlap(rectangle) && this.voverlap(rectangle);
+    }
 });
 
 var Paddle = Class.create(Equipement,
@@ -241,12 +234,15 @@ var Paddle = Class.create(Equipement,
 
 var Ball = Class.create(Equipement,
 {
-    speed : 3,
-    vX    : 1,
-    vY    : 0.3,
+    speed   : 9,
+    V       : $V([1, 0]),
+    vX      : null,
+    vY      : null,
 
     initialize: function($super, p)
     {
+        this.vX = this.V.e(1);
+        this.vY = this.V.e(2);
         $super(p);
     },
     move: function()
@@ -258,12 +254,12 @@ var Ball = Class.create(Equipement,
         if (x <= 0)
         {
             this.x = 0;
-            console.log('left player you loose');
+            console.log('Left player you loose.');
         }
         else if (x >= this.container.width - this.width)
         {
             this.x = this.container.width - this.width;
-            console.log('right player you loose');
+            console.log('Right player you loose.');
         }
         else
         {
@@ -274,23 +270,12 @@ var Ball = Class.create(Equipement,
         if (this.overlap(this.container.lp))
         {
             this.x = this.container.lp.x + this.container.lp.width;
-            this.vX *= -1;
-
-            if (this.container.lp.isMoving())
-            {
-                this.vY *= -1
-            }
+            this.reboundsOnPaddle(this.container.lp);
         }
         else if (this.overlap(this.container.rp))
         {
-            this.x = (this.container.rp.x - this.width) + (this.vX * this.speed);
-            this.vX *= -1;
-
-            this.himpact(this.container.rp);
-            if (this.container.rp.isMoving())
-            {
-                this.vY *= -1
-            }
+            this.x = this.container.rp.x - this.width;
+            this.reboundsOnPaddle(this.container.rp);
         }
 
         // Floor and ceiling
@@ -309,7 +294,22 @@ var Ball = Class.create(Equipement,
             this.y = y;
         }
 
+        this.V = $V([this.vX, this.vY]).toUnitVector();
+        this.vX = this.V.e(1);
+        this.vY = this.V.e(2);
         this.setPosition(this.x, this.y);
+    },
+    reboundsOnPaddle: function(paddle)
+    {
+        this.vX *= -1;
+        this.vY = ((this.y + this.height / 2) - (paddle.y + paddle.height / 2)) / (paddle.height / 2);
+        this.vY *= 1.3;
+
+        if (this.vY > 1)
+        {
+            this.vX += this.vY - 1;
+            this.vY = 1;
+        }
     }
 });
 
