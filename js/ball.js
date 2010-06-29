@@ -41,9 +41,9 @@ var Ball = Class.create(Equipement,
             this.container.pauseAndStopAfterAdelay();
             this.container.rightPlayer.updateScore();
         }
-        else if (this.x >= this.container.width - this.container.rp.width)
+        else if (this.x >= this.container.width - this.container.rightPaddle.width)
         {
-            this.x = (this.container.width - this.container.rp.width) - this.width / 2;
+            this.x = (this.container.width - this.container.rightPaddle.width) - this.width / 2;
             this.container.pauseAndStopAfterAdelay();
             this.container.leftPlayer.updateScore();
         }
@@ -63,15 +63,15 @@ var Ball = Class.create(Equipement,
     },
     handlePaddleRebound: function()
     {
-        if (this.overlap(this.container.lp))
+        if (this.overlap(this.container.leftPaddle))
         {
-            this.x = this.container.lp.x + this.container.lp.width;
-            this.reboundsOnPaddle(this.container.lp);
+            this.x = this.container.leftPaddle.x + this.container.leftPaddle.width;
+            this.reboundsOnPaddle(this.container.leftPaddle);
         }
-        else if (this.overlap(this.container.rp))
+        else if (this.overlap(this.container.rightPaddle))
         {
-            this.x = this.container.rp.x - this.width;
-            this.reboundsOnPaddle(this.container.rp);
+            this.x = this.container.rightPaddle.x - this.width;
+            this.reboundsOnPaddle(this.container.rightPaddle);
         }
     },
     reboundsOnPaddle: function(paddle)

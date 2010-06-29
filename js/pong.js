@@ -4,8 +4,8 @@ var Pong = Class.create(
     intervalId    : null,
     width         : 500,
     height        : 250,
-    lp            : null,
-    rp            : null,
+    leftPaddle    : null,
+    rightPaddle   : null,
     leftPlayer    : null,
     rightPlayer   : null,
     ball          : null,
@@ -19,7 +19,7 @@ var Pong = Class.create(
         this.gameArea.setAttribute('id', 'pong-game-area');
         this.gameArea.setAttribute('style', 'width: ' + this.width + 'px; height: ' + this.height + 'px;');
         document.getElementsByTagName('body')[0].appendChild(this.gameArea);
-        this.lp = new Paddle(
+        this.leftPaddle = new Paddle(
         {
             'container' : this,
             'id'        : 'pong-left',
@@ -27,7 +27,7 @@ var Pong = Class.create(
             'height'    : 60,
             'position'  : 'left'
         });
-        this.rp = new Paddle(
+        this.rightPaddle = new Paddle(
         {
             'container' : this,
             'id'        : 'pong-right',
@@ -51,21 +51,21 @@ var Pong = Class.create(
     },
     update: function()
     {
-        if (this.lp.isGoingUp)
+        if (this.leftPaddle.isGoingUp)
         {
-            this.lp.moveUp();
+            this.leftPaddle.moveUp();
         }
-        else if (this.lp.isGoingDown)
+        else if (this.leftPaddle.isGoingDown)
         {
-            this.lp.moveDown();
+            this.leftPaddle.moveDown();
         }
-        if (this.rp.isGoingUp)
+        if (this.rightPaddle.isGoingUp)
         {
-            this.rp.moveUp();
+            this.rightPaddle.moveUp();
         }
-        else if (this.rp.isGoingDown)
+        else if (this.rightPaddle.isGoingDown)
         {
-            this.rp.moveDown();
+            this.rightPaddle.moveDown();
         }
 
         this.ball.move();
@@ -74,42 +74,42 @@ var Pong = Class.create(
     {
         if (e.keyCode == 65) // A
         {
-            this.lp.isGoingUp   = true;
-            this.lp.isGoingDown = false;
+            this.leftPaddle.isGoingUp   = true;
+            this.leftPaddle.isGoingDown = false;
         }
         else if (e.keyCode == 81) // Q
         {
-            this.lp.isGoingUp   = false;
-            this.lp.isGoingDown = true;
+            this.leftPaddle.isGoingUp   = false;
+            this.leftPaddle.isGoingDown = true;
         }
         else if (e.keyCode == 38) // Up arrow
         {
-            this.rp.isGoingUp   = true;
-            this.rp.isGoingDown = false;
+            this.rightPaddle.isGoingUp   = true;
+            this.rightPaddle.isGoingDown = false;
         }
         else if (e.keyCode == 40) // Down arrow
         {
-            this.rp.isGoingUp   = false;
-            this.rp.isGoingDown = true;
+            this.rightPaddle.isGoingUp   = false;
+            this.rightPaddle.isGoingDown = true;
         }
     },
     keyupHandler: function(e)
     {
         if (e.keyCode == 65) // A
         {
-            this.lp.isGoingUp = false;
+            this.leftPaddle.isGoingUp = false;
         }
         else if (e.keyCode == 81) // Q
         {
-            this.lp.isGoingDown = false;
+            this.leftPaddle.isGoingDown = false;
         }
         else if (e.keyCode == 38) // Up arrow
         {
-            this.rp.isGoingUp = false;
+            this.rightPaddle.isGoingUp = false;
         }
         else if (e.keyCode == 40) // Down arrow
         {
-            this.rp.isGoingDown = false;
+            this.rightPaddle.isGoingDown = false;
         }
         else if (e.keyCode == 80) // P pause
         {
@@ -141,8 +141,8 @@ var Pong = Class.create(
         clearInterval(this.intervalId);
         this.intervalId = null;
         this.ball.resetPosition();
-        this.lp.resetPosition();
-        this.rp.resetPosition();
+        this.leftPaddle.resetPosition();
+        this.rightPaddle.resetPosition();
     },
     pause: function()
     {
