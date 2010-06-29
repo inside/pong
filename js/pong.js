@@ -2,10 +2,12 @@ var Pong = Class.create(
 {
     gameArea      : null,
     intervalId    : null,
-    width         : 200,
-    height        : 200,
+    width         : 500,
+    height        : 250,
     lp            : null,
     rp            : null,
+    leftPlayer    : null,
+    rightPlayer   : null,
     ball          : null,
     paused        : false,
     started       : false,
@@ -21,16 +23,16 @@ var Pong = Class.create(
         {
             'container' : this,
             'id'        : 'pong-left',
-            'width'     : 10,
-            'height'    : 50,
+            'width'     : 6,
+            'height'    : 60,
             'position'  : 'left'
         });
         this.rp = new Paddle(
         {
             'container' : this,
             'id'        : 'pong-right',
-            'width'     : 10,
-            'height'    : 50,
+            'width'     : 6,
+            'height'    : 60,
             'position'  : 'right'
         });
         this.ball = new Ball(
@@ -40,6 +42,8 @@ var Pong = Class.create(
             'width'     : 10,
             'height'    : 10
         });
+        this.leftPlayer  = new Player({name: 'left'});
+        this.rightPlayer = new Player({name: 'right'});
 
         // handle keystrokes
         document.observe('keydown', this.keydownHandler.bind(this));
@@ -169,5 +173,10 @@ var Pong = Class.create(
         {
             this.pause();
         }
+    },
+    pauseAndStopAfterAdelay: function()
+    {
+        this.pause();
+        setTimeout(this.stop.bind(this), 1000);
     }
 });

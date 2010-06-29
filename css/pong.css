@@ -1,9 +1,14 @@
+body
+{
+    background-color: #fff;
+}
+
 #pong-game-area
 {
-    position: absolute;
-    top: 50px;
-    left: 100px;
-    background-color: pink;
+    margin: auto;
+    position: relative;
+    background-color: #dcf6db;
+    clear: both;
 }
 
 #pong-left,
@@ -16,5 +21,26 @@
 #pong-ball
 {
     position: absolute;
-    background-color: blue;
+    background-color: red;
+}
+
+#score
+{
+    margin: auto;
+    width: 600px;
+}
+
+#score span
+{
+    font-size: 24px;
+}
+
+#score #left
+{
+    float: left;
+}
+
+#score #right
+{
+    float: right;
 }

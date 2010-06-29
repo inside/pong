@@ -21,52 +21,44 @@ var Ball = Class.create(Equipement,
     },
     move: function()
     {
-        var x = this.x + (this.vX * this.speed);
-        var y = this.y + (this.vY * this.speed);
+        this.x += this.vX * this.speed;
+        this.y += this.vY * this.speed;
 
-        this.handleLeftAndRightWallsRebound(x);
         this.handlePaddleRebound();
-        this.handleFloorAndCeilingRebound(y);
+        this.handleLeftAndRightWalls();
+        this.handleFloorAndCeilingRebound();
         
         this.V = $V([this.vX, this.vY]).toUnitVector();
         this.vX = this.V.e(1);
         this.vY = this.V.e(2);
         this.setPosition(this.x, this.y);
     },
-    handleLeftAndRightWallsRebound: function(x)
+    handleLeftAndRightWalls: function()
     {
-        if (x <= 0)
+        if (this.x <= 0)
         {
             this.x = 0;
-            this.container.pause();
-            console.log('Left player you loose.');
+            this.container.pauseAndStopAfterAdelay();
+            this.container.rightPlayer.updateScore();
         }
-        else if (x >= this.container.width - this.width)
+        else if (this.x >= this.container.width - this.container.rp.width)
         {
-            this.x = this.container.width - this.width;
-            this.container.pause();
-            console.log('Right player you loose.');
-        }
-        else
-        {
-            this.x = x;
+            this.x = (this.container.width - this.container.rp.width) - this.width / 2;
+            this.container.pauseAndStopAfterAdelay();
+            this.container.leftPlayer.updateScore();
         }
     },
-    handleFloorAndCeilingRebound: function(y)
+    handleFloorAndCeilingRebound: function()
     {
-        if (y <= 0)
+        if (this.y <= 0)
         {
             this.vY *= -1;
             this.y = 0;
         }
-        else if (y >= this.container.height - this.height)
+        else if (this.y >= this.container.height - this.height)
         {
             this.vY *= -1;
             this.y = this.container.height - this.height;
-        }
-        else
-        {
-            this.y = y;
         }
     },
     handlePaddleRebound: function()
@@ -86,12 +78,5 @@ var Ball = Class.create(Equipement,
     {
         this.vX *= -1;
         this.vY = ((this.y + this.height / 2) - (paddle.y + paddle.height / 2)) / (paddle.height / 2);
-        this.vY *= 1.3;
-
-        if (this.vY > 1)
-        {
-            this.vX += this.vY - 1;
-            this.vY = 1;
-        }
     }
 });

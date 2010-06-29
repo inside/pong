@@ -10,14 +10,29 @@
     <script type="text/javascript" src="js/equipement.js"></script>
     <script type="text/javascript" src="js/paddle.js"></script>
     <script type="text/javascript" src="js/ball.js"></script>
+    <script type="text/javascript" src="js/player.js"></script>
     <script type="text/javascript">
     document.observe('dom:loaded', function()
     {
         var pong = new Pong();
     });
-    </script> 
+    </script>
     <link rel="stylesheet" href="css/pong.css" />
   </head>
   <body>
+    <h1>Pong</h1>
+    <ul>
+      <li>Start <kbd>space bar</kbd></li>
+      <li>Stop <kbd>s</kbd></li>
+      <li>Pause <kbd>p</kbd></li>
+      <li>Left player up <kbd>a</kbd></li>
+      <li>Left player down <kbd>q</kbd></li>
+      <li>Right player up <kbd>up arrow</kbd></li>
+      <li>Right player down <kbd>down arrow</kbd></li>
+    </ul>
+    <div id="score">
+      <span id="left">0</span>
+      <span id="right">0</span>
+    </div>
   </body>
 </html>
