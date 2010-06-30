@@ -1,9 +1,9 @@
 var Ball = Class.create(Equipement,
 {
-    speed   : 9,
-    V       : $V([1, 0]),
-    vX      : null,
-    vY      : null,
+    speed : 9,
+    V     : null,
+    vX    : null,
+    vY    : null,
 
     initialize: function($super, p)
     {
@@ -14,7 +14,7 @@ var Ball = Class.create(Equipement,
     {
         this.x = (this.container.width / 2) - (this.width / 2);
         this.y = (this.container.height / 2) - (this.height / 2);
-        this.V = $V([1, 0]);
+        this.V = this.getVector();
         this.vX = this.V.e(1);
         this.vY = this.V.e(2);
         this.setPosition(this.x, this.y);
@@ -38,12 +38,14 @@ var Ball = Class.create(Equipement,
         if (this.x <= 0)
         {
             this.x = 0;
+            this.direction = 'right';
             this.container.pauseAndStopAfterAdelay();
             this.container.rightPlayer.updateScore();
         }
         else if (this.x >= this.container.width - this.container.rightPaddle.width)
         {
             this.x = (this.container.width - this.container.rightPaddle.width) - this.width / 2;
+            this.direction = 'left';
             this.container.pauseAndStopAfterAdelay();
             this.container.leftPlayer.updateScore();
         }

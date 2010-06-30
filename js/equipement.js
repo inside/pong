@@ -8,6 +8,7 @@ var Equipement = Class.create(
     container  : null,
     speed      : null,
     domElement : null,
+    direction  : 'random', // random, left, right
 
     initialize: function(p)
     {
@@ -41,5 +42,33 @@ var Equipement = Class.create(
     overlap: function(rectangle)
     {
         return this.hoverlap(rectangle) && this.voverlap(rectangle);
+    },
+    getVector: function()
+    {
+        var y = Math.round(Math.random() * 10) /  10; // random between 0 and 1
+
+        if (Math.round(Math.random()))
+        {
+            y *= -1;
+        }
+        if (this.direction === 'random')
+        {
+            var x = 1;
+
+            if (Math.round(Math.random()))
+            {
+                x *= -1;
+            }
+
+            return $V([x, y]);
+        }
+        else if (this.direction === 'left')
+        {
+            return $V([-1, y]);
+        }
+        else if (this.direction === 'right')
+        {
+            return $V([1, y]);
+        }
     }
 });
