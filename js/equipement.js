@@ -22,7 +22,7 @@ var Equipement = Class.create(
         var el = document.createElement('div');
         el.setAttribute('id', this.id);
         el.setAttribute('style', 'width: ' + this.width + 'px; height: ' + this.height + 'px;');
-        this.container.gameArea.appendChild(el);
+        this.container.area.appendChild(el);
         this.domElement = $(this.id);
         this.setPosition(this.x, this.y);
     },

@@ -1,6 +1,6 @@
 var Pong = Class.create(
 {
-    gameArea      : null,
+    area          : null,
     intervalId    : null,
     width         : 500,
     height        : 250,
@@ -15,10 +15,10 @@ var Pong = Class.create(
 
     initialize: function(p)
     {
-        this.gameArea = document.createElement('div');
-        this.gameArea.setAttribute('id', 'pong-game-area');
-        this.gameArea.setAttribute('style', 'width: ' + this.width + 'px; height: ' + this.height + 'px;');
-        document.getElementsByTagName('body')[0].appendChild(this.gameArea);
+        this.area = document.createElement('div');
+        this.area.setAttribute('id', 'pong-area');
+        this.area.setAttribute('style', 'width: ' + this.width + 'px; height: ' + this.height + 'px;');
+        document.getElementsByTagName('body')[0].appendChild(this.area);
         this.leftPaddle = new Paddle(
         {
             'container' : this,
