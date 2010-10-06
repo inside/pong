@@ -39,14 +39,14 @@ var Ball = Class.create(Equipement,
         {
             this.x = 0;
             this.direction = 'right';
-            this.container.pauseAndStopAfterAdelay();
+            this.container.replay();
             this.container.rightPlayer.updateScore();
         }
         else if (this.x >= this.container.width - this.container.rightPaddle.width)
         {
             this.x = (this.container.width - this.container.rightPaddle.width) - this.width / 2;
             this.direction = 'left';
-            this.container.pauseAndStopAfterAdelay();
+            this.container.replay();
             this.container.leftPlayer.updateScore();
         }
     },

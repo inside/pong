@@ -1,17 +1,18 @@
 var Pong = Class.create(
 {
-    area          : null,
-    intervalId    : null,
-    width         : 500,
-    height        : 250,
-    leftPaddle    : null,
-    rightPaddle   : null,
-    leftPlayer    : null,
-    rightPlayer   : null,
-    ball          : null,
-    paused        : false,
-    started       : false,
-    stopped       : true,
+    area             : null,
+    updateIntervalId : null,
+    updateInterval   : 30,   // milliseconds
+    replayDelay      : 1000, // milliseconds
+    width            : 500,  // pixels
+    height           : 250,  // pixels
+    leftPaddle       : null,
+    rightPaddle      : null,
+    leftPlayer       : null,
+    rightPlayer      : null,
+    ball             : null,
+    paused           : false,
+    started          : false,
 
     initialize: function(p)
     {
@@ -135,33 +136,31 @@ var Pong = Class.create(
     },
     stop: function()
     {
-        this.started    = false;
-        this.stopped    = true;
-        this.paused     = true;
-        clearInterval(this.intervalId);
-        this.intervalId = null;
+        this.started = false;
+        this.paused  = true;
+        clearInterval(this.updateIntervalId);
+        this.updateIntervalId = null;
         this.ball.resetPosition();
         this.leftPaddle.resetPosition();
         this.rightPaddle.resetPosition();
     },
     pause: function()
     {
-        this.started    = true;
-        this.stopped    = false;
-        this.paused     = true;
-        clearInterval(this.intervalId);
-        this.intervalId = null;
+        this.started = true;
+        this.paused  = true;
+        clearInterval(this.updateIntervalId);
+        this.updateIntervalId = null;
     },
     pursue: function()
     {
-        this.started    = true;
-        this.stopped    = false;
-        this.paused     = false;
-        this.intervalId = setInterval(this.update.bind(this), 30);
+        this.started          = true;
+        this.paused           = false;
+        this.updateIntervalId =
+            setInterval(this.update.bind(this), this.updateInterval);
     },
     togglePause: function()
     {
-        if (this.stopped)
+        if (!this.started)
         {
             return;
         }
@@ -174,9 +173,9 @@ var Pong = Class.create(
             this.pause();
         }
     },
-    pauseAndStopAfterAdelay: function()
+    replay: function()
     {
         this.pause();
-        setTimeout(this.stop.bind(this), 1000);
+        setTimeout(this.stop.bind(this), this.replayDelay);
     }
 });

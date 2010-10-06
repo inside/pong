@@ -55,9 +55,5 @@ var Paddle = Class.create(Equipement,
         }
 
         this.setPosition(this.x, this.y);
-    },
-    isMoving: function()
-    {
-        return this.isGoingUp || this.isGoingDown;
     }
 });
