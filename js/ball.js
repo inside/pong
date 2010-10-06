@@ -1,6 +1,6 @@
 var Ball = Class.create(Equipement,
 {
-    speed : 9,
+    speed : 11,
     V     : null,
     vX    : null,
     vY    : null,
