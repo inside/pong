@@ -43,11 +43,11 @@ var Equipement = Class.create(
     {
         return this.hoverlap(rectangle) && this.voverlap(rectangle);
     },
-    getVector: function()
+    getInitialUnitVector: function()
     {
         var y = Math.round(Math.random() * 10) /  10; // random between 0 and 1
 
-        if (Math.round(Math.random()))
+        if (Math.round(Math.random())) // 50% of the time, go downwards
         {
             y *= -1;
         }
@@ -60,15 +60,19 @@ var Equipement = Class.create(
                 x *= -1;
             }
 
-            return $V([x, y]);
+            return Vector.create([x, y]).toUnitVector();
         }
         else if (this.direction === 'left')
         {
-            return $V([-1, y]);
+            return Vector.create([-1, y]).toUnitVector();
         }
         else if (this.direction === 'right')
         {
-            return $V([1, y]);
+            return Vector.create([1, y]).toUnitVector();
         }
+    },
+    getUnitVector: function(vX, vY)
+    {
+        return Vector.create([vX, vY]).toUnitVector();
     }
 });

@@ -14,9 +14,7 @@ var Ball = Class.create(Equipement,
     {
         this.x = (this.container.width / 2) - (this.width / 2);
         this.y = (this.container.height / 2) - (this.height / 2);
-        this.V = this.getVector();
-        this.vX = this.V.e(1);
-        this.vY = this.V.e(2);
+        this.setVelocity(this.getInitialUnitVector());
         this.setPosition(this.x, this.y);
     },
     move: function()
@@ -28,10 +26,12 @@ var Ball = Class.create(Equipement,
         this.handleLeftAndRightWalls();
         this.handleFloorAndCeilingRebound();
         
-        this.V = $V([this.vX, this.vY]).toUnitVector();
-        this.vX = this.V.e(1);
-        this.vY = this.V.e(2);
         this.setPosition(this.x, this.y);
+    },
+    setVelocity: function(vector)
+    {
+        this.vX = vector.e(1);
+        this.vY = vector.e(2);
     },
     handleLeftAndRightWalls: function()
     {
@@ -56,11 +56,13 @@ var Ball = Class.create(Equipement,
         {
             this.vY *= -1;
             this.y = 0;
+            this.setVelocity(this.getUnitVector(this.vX, this.vY));
         }
         else if (this.y >= this.container.height - this.height)
         {
             this.vY *= -1;
             this.y = this.container.height - this.height;
+            this.setVelocity(this.getUnitVector(this.vX, this.vY));
         }
     },
     handlePaddleRebound: function()
@@ -69,11 +71,13 @@ var Ball = Class.create(Equipement,
         {
             this.x = this.container.leftPaddle.x + this.container.leftPaddle.width;
             this.reboundsOnPaddle(this.container.leftPaddle);
+            this.setVelocity(this.getUnitVector(this.vX, this.vY));
         }
         else if (this.overlap(this.container.rightPaddle))
         {
             this.x = this.container.rightPaddle.x - this.width;
             this.reboundsOnPaddle(this.container.rightPaddle);
+            this.setVelocity(this.getUnitVector(this.vX, this.vY));
         }
     },
     reboundsOnPaddle: function(paddle)
