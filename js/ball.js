@@ -7,6 +7,7 @@ var Ball = Class.create(Equipement,
     initialize: function($super, p)
     {
         $super(p);
+        this.domElement.setAttribute('class', 'ball');
         this.resetPosition();
     },
     resetPosition: function()
@@ -66,13 +67,13 @@ var Ball = Class.create(Equipement,
     },
     handlePaddleRebound: function()
     {
-        if (this.overlap(this.container.leftPaddle))
+        if (Collision.overlap(this, this.container.leftPaddle))
         {
             this.x = this.container.leftPaddle.x + this.container.leftPaddle.width;
             this.reboundsOnPaddle(this.container.leftPaddle);
             this.setVelocity(this.getUnitVector(this.vX, this.vY));
         }
-        else if (this.overlap(this.container.rightPaddle))
+        else if (Collision.overlap(this, this.container.rightPaddle))
         {
             this.x = this.container.rightPaddle.x - this.width;
             this.reboundsOnPaddle(this.container.rightPaddle);

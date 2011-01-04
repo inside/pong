@@ -31,18 +31,6 @@ var Equipement = Class.create(
        this.domElement.style.left = x + 'px';
        this.domElement.style.top  = y + 'px';
     },
-    hoverlap: function(rectangle)
-    {
-        return (this.x < rectangle.x + rectangle.width) && (rectangle.x < this.x + this.width);
-    },
-    voverlap: function(rectangle)
-    {
-        return (this.y < rectangle.y + rectangle.height) && (rectangle.y < this.y + this.height)
-    },
-    overlap: function(rectangle)
-    {
-        return this.hoverlap(rectangle) && this.voverlap(rectangle);
-    },
     getInitialUnitVector: function()
     {
         var y = Math.round(Math.random() * 10) /  10; // random between 0 and 1

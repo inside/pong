@@ -18,7 +18,7 @@ body
     background-color: black;
 }
 
-#pong-ball
+.ball
 {
     position: absolute;
     background-color: red;
