@@ -47,8 +47,9 @@ var Pong = Class.create(
         this.rightPlayer = new Player({name: 'right'});
 
         // handle keystrokes
-        document.observe('keydown', this.keydownHandler.bind(this));
-        document.observe('keyup', this.keyupHandler.bind(this));
+        var keyboard = new Keyboard();
+        document.observe('keydown', keyboard.keyDownHandler.bind(keyboard, this));
+        document.observe('keyup', keyboard.keyUpHandler.bind(keyboard, this));
     },
     update: function()
     {
@@ -70,60 +71,6 @@ var Pong = Class.create(
         }
 
         this.ball.move();
-    },
-    keydownHandler: function(e)
-    {
-        if (e.keyCode == 65) // A
-        {
-            this.leftPaddle.isGoingUp   = true;
-            this.leftPaddle.isGoingDown = false;
-        }
-        else if (e.keyCode == 81) // Q
-        {
-            this.leftPaddle.isGoingUp   = false;
-            this.leftPaddle.isGoingDown = true;
-        }
-        else if (e.keyCode == 38) // Up arrow
-        {
-            this.rightPaddle.isGoingUp   = true;
-            this.rightPaddle.isGoingDown = false;
-        }
-        else if (e.keyCode == 40) // Down arrow
-        {
-            this.rightPaddle.isGoingUp   = false;
-            this.rightPaddle.isGoingDown = true;
-        }
-    },
-    keyupHandler: function(e)
-    {
-        if (e.keyCode == 65) // A
-        {
-            this.leftPaddle.isGoingUp = false;
-        }
-        else if (e.keyCode == 81) // Q
-        {
-            this.leftPaddle.isGoingDown = false;
-        }
-        else if (e.keyCode == 38) // Up arrow
-        {
-            this.rightPaddle.isGoingUp = false;
-        }
-        else if (e.keyCode == 40) // Down arrow
-        {
-            this.rightPaddle.isGoingDown = false;
-        }
-        else if (e.keyCode == 80) // P pause
-        {
-            this.togglePause();
-        }
-        else if (e.keyCode == 83) // S stop
-        {
-            this.stop();
-        }
-        else if (e.keyCode == 32) // Space bar start
-        {
-            this.start();
-        }
     },
     start: function()
     {
