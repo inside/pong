@@ -12,13 +12,7 @@ var Equipement = Class.create(
 
     initialize: function(p)
     {
-        this.id        = p.id;
-        this.width     = p.width;
-        this.height    = p.height;
-        this.x         = p.x;
-        this.y         = p.y;
-        this.container = p.container;
-
+        Object.extend(this, p);
         var el = document.createElement('div');
         el.setAttribute('id', this.id);
         el.setAttribute('style', 'width: ' + this.width + 'px; height: ' + this.height + 'px;');

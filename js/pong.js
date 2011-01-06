@@ -11,6 +11,7 @@ var Pong = Class.create(
     leftPlayer       : null,
     rightPlayer      : null,
     ball             : null,
+    projectiles      : [],
     paused           : false,
     started          : false,
 
@@ -43,6 +44,22 @@ var Pong = Class.create(
             'width'     : 10,
             'height'    : 10
         });
+
+        for (var i = 0; i < 1; i++)
+        {
+            var id = 'pong-ball-' + i;
+            var projectile = new Ball(
+            {
+                'container' : this,
+                'id'        : id,
+                'width'     : 15,
+                'height'    : 15,
+                'speed'     : 4
+            });
+
+            this.projectiles.push(projectile);
+        }
+
         this.leftPlayer  = new Player({name: 'left'});
         this.rightPlayer = new Player({name: 'right'});
 
@@ -71,6 +88,11 @@ var Pong = Class.create(
         }
 
         this.ball.move();
+
+        for (var i = 0; i < this.projectiles.length; i++)
+        {
+            this.projectiles[i].move();
+        }
     },
     start: function()
     {
