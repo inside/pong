@@ -1,0 +1,8 @@
+* set a max projectile conf value
+* handle bonuses and maluses:
+    extra ball
+    paddle speed
+    paddle size
+    bullet
+* when the game begins, we only have one projectile.
+Bonuses enables multiple projectile. Bonuses needs to be catched by the paddle.
