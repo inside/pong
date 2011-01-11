@@ -10,10 +10,10 @@ var Pong = Class.create(
     rightPaddle      : null,
     leftPlayer       : null,
     rightPlayer      : null,
-    ball             : null,
     projectiles      : [],
     paused           : false,
     started          : false,
+    maxScore         : 5,
 
     initialize: function(p)
     {
@@ -37,24 +37,17 @@ var Pong = Class.create(
             'height'    : 60,
             'position'  : 'right'
         });
-        this.ball = new Ball(
-        {
-            'container' : this,
-            'id'        : 'pong-ball',
-            'width'     : 10,
-            'height'    : 10
-        });
 
-        for (var i = 0; i < 1; i++)
+        for (var i = 0; i < 5; i++)
         {
             var id = 'pong-ball-' + i;
             var projectile = new Ball(
             {
                 'container' : this,
                 'id'        : id,
-                'width'     : 15,
-                'height'    : 15,
-                'speed'     : 4
+                'width'     : 10,
+                'height'    : 10,
+                'speed'     : 6
             });
 
             this.projectiles.push(projectile);
@@ -87,11 +80,26 @@ var Pong = Class.create(
             this.rightPaddle.moveDown();
         }
 
-        this.ball.move();
-
         for (var i = 0; i < this.projectiles.length; i++)
         {
             this.projectiles[i].move();
+        }
+
+        if (this.leftPlayer.hasReachedScore(this.maxScore))
+        {
+            console.log('Left player won with ' +
+                this.leftPlayer.score +
+                ' points. Right player lost with ' +
+                this.rightPlayer.score);
+            this.stop();
+        }
+        if (this.rightPlayer.hasReachedScore(this.maxScore))
+        {
+            console.log('Right player won with ' +
+                this.rightPlayer.score +
+                ' points. Left player lost with ' +
+                this.leftPlayer.score);
+            this.stop();
         }
     },
     start: function()
@@ -101,6 +109,8 @@ var Pong = Class.create(
             return;
         }
         this.stop();
+        this.leftPlayer.resetScore();
+        this.rightPlayer.resetScore();
         this.pursue();
     },
     stop: function()
@@ -109,7 +119,10 @@ var Pong = Class.create(
         this.paused  = true;
         clearInterval(this.updateIntervalId);
         this.updateIntervalId = null;
-        this.ball.resetPosition();
+        this.projectiles.each(function(projectile)
+        {
+            projectile.resetPosition();
+        });
         this.leftPaddle.resetPosition();
         this.rightPaddle.resetPosition();
     },

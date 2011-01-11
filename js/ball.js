@@ -37,16 +37,14 @@ var Ball = Class.create(Equipement,
     {
         if (this.x <= 0)
         {
+            this.vX *= -1;
             this.x = 0;
-            this.direction = 'right';
-            this.container.replay();
             this.container.rightPlayer.updateScore();
         }
-        else if (this.x >= this.container.width - this.container.rightPaddle.width)
+        else if (this.x >= this.container.width - this.width)
         {
-            this.x = (this.container.width - this.container.rightPaddle.width) - this.width / 2;
-            this.direction = 'left';
-            this.container.replay();
+            this.vX *= -1;
+            this.x = this.container.width - this.width;
             this.container.leftPlayer.updateScore();
         }
     },
