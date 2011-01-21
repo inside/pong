@@ -1,10 +1,15 @@
 * Set a max ball number conf value. This avoids the game to be over crowded.
+OK
 
 * Handle bonuses and maluses.
 
 They appear on the board every "random number between 1 and 10" seconds.
+OK
+
 They need to be catched by the paddle.
+
 They have a lifetime of maybe 10 seconds.
+OK
 
     Extra ball (make an additionnal ball appear in the game area's center)
     Increase paddle speed

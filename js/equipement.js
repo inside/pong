@@ -9,6 +9,9 @@ var Equipement = Class.create(
     speed      : null,
     domElement : null,
     direction  : 'random', // random, left, right
+    creationTime   : 0, // milliseconds timestamp
+    lifeTime   : 0, // milliseconds
+    diesIn   : 0, // milliseconds timestamp
 
     initialize: function(p)
     {
@@ -19,6 +22,9 @@ var Equipement = Class.create(
         this.container.area.appendChild(el);
         this.domElement = $(this.id);
         this.setPosition(this.x, this.y);
+        var date = new Date();
+        this.creationTime = date.getTime();
+        this.diesIn = this.creationTime + this.lifeTime;
     },
     setPosition: function(x, y)
     {
@@ -56,5 +62,14 @@ var Equipement = Class.create(
     getUnitVector: function(vX, vY)
     {
         return Vector.create([vX, vY]).toUnitVector();
+    },
+    isLiving: function(currentTime)
+    {
+        if (this.lifeTime <= 0)
+        {
+            return true;
+        }
+
+        return this.diesIn >= currentTime;
     }
 });
