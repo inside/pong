@@ -2,22 +2,22 @@ var Keyboard = Class.create(
 {
     keyDownHandler: function(pong, event)
     {
-        if (event.keyCode == 65) // A
+        if (event.keyCode == 73) // i
         {
             pong.leftPaddle.isGoingUp   = true;
             pong.leftPaddle.isGoingDown = false;
         }
-        else if (event.keyCode == 81) // Q
+        else if (event.keyCode == 75) // k
         {
             pong.leftPaddle.isGoingUp   = false;
             pong.leftPaddle.isGoingDown = true;
         }
-        else if (event.keyCode == 38) // Up arrow
+        else if (event.keyCode == Event.KEY_UP)
         {
             pong.rightPaddle.isGoingUp   = true;
             pong.rightPaddle.isGoingDown = false;
         }
-        else if (event.keyCode == 40) // Down arrow
+        else if (event.keyCode == Event.KEY_DOWN)
         {
             pong.rightPaddle.isGoingUp   = false;
             pong.rightPaddle.isGoingDown = true;
@@ -25,19 +25,19 @@ var Keyboard = Class.create(
     },
     keyUpHandler: function(pong, event)
     {
-        if (event.keyCode == 65) // A
+        if (event.keyCode == 73) // i
         {
             pong.leftPaddle.isGoingUp = false;
         }
-        else if (event.keyCode == 81) // Q
+        else if (event.keyCode == 75) // k
         {
             pong.leftPaddle.isGoingDown = false;
         }
-        else if (event.keyCode == 38) // Up arrow
+        else if (event.keyCode == Event.KEY_UP)
         {
             pong.rightPaddle.isGoingUp = false;
         }
-        else if (event.keyCode == 40) // Down arrow
+        else if (event.keyCode == Event.KEY_DOWN)
         {
             pong.rightPaddle.isGoingDown = false;
         }

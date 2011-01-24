@@ -1,26 +1,24 @@
 var Pong = Class.create(
 {
-    area                 : null,
-    updateIntervalId     : null,
-    updateInterval       : 30,   // milliseconds
-    replayDelay          : 1000, // milliseconds
-    width                : 500,  // pixels
-    height               : 250,  // pixels
-    leftPaddle           : null,
-    rightPaddle          : null,
-    leftPlayer           : null,
-    rightPlayer          : null,
-    projectiles          : [],
-    maxProjectiles       : 10,
-    paused               : false,
-    started              : false,
-    maxScore             : 5,
-    fireProjectileIn     : 0,     // time
-//    fireProjectileInMin  : 5000,  // milliseconds
-//    fireProjectileInMax  : 10000, // milliseconds
-    fireProjectileInMin  : 1000,  // milliseconds
-    fireProjectileInMax  : 1000, // milliseconds
-    currentTime          : 0,     // milliseconds
+    area                   : null,
+    updateIntervalId       : null,
+    updateInterval         : 30,   // milliseconds
+    replayDelay            : 1000, // milliseconds
+    width                  : 500,  // pixels
+    height                 : 250,  // pixels
+    leftPaddle             : null,
+    rightPaddle            : null,
+    leftPlayer             : null,
+    rightPlayer            : null,
+    projectiles            : [],
+    maxProjectiles         : 10,
+    paused                 : false,
+    started                : false,
+    maxScore               : 5,
+    fireProjectileTime     : 0,     // time
+    fireProjectileDelayMin : 5000,  // milliseconds
+    fireProjectileDelayMax : 10000, // milliseconds
+    currentTime            : 0,     // milliseconds
 
     initialize: function(p)
     {
@@ -79,7 +77,7 @@ var Pong = Class.create(
         // Projectiles
         if (this.needsNewProjectile())
         {
-            this.initFireProjectileIn();
+            this.initFireProjectileTime();
 
             if (this.projectiles.length < this.maxProjectiles)
             {
@@ -95,8 +93,9 @@ var Pong = Class.create(
             }
             else
             {
-               delete this.projectiles[i];
-               this.projectiles = this.projectiles.compact();
+                this.projectiles[i].remove();
+                delete this.projectiles[i];
+                this.projectiles = this.projectiles.compact();
             }
         }
 
@@ -154,7 +153,7 @@ var Pong = Class.create(
         this.started          = true;
         this.paused           = false;
         this.setCurrentTime();
-        this.initFireProjectileIn();
+        this.initFireProjectileTime();
         this.updateIntervalId =
             setInterval(this.update.bind(this), this.updateInterval);
     },
@@ -178,11 +177,11 @@ var Pong = Class.create(
         this.pause();
         setTimeout(this.stop.bind(this), this.replayDelay);
     },
-    initFireProjectileIn: function()
+    initFireProjectileTime: function()
     {
-        this.fireProjectileIn =
-            Math.ceil(Math.random() * (this.fireProjectileInMax - this.fireProjectileInMin)) +
-            this.fireProjectileInMin +
+        this.fireProjectileTime =
+            Math.ceil(Math.random() * (this.fireProjectileDelayMax - this.fireProjectileDelayMin)) +
+            this.fireProjectileDelayMin +
             this.currentTime;
     },
     createNewBall: function()
@@ -195,12 +194,12 @@ var Pong = Class.create(
             'width'     : 10,
             'height'    : 10,
             'speed'     : 6,
-            'lifeTime'  : 2000
+            'lifeTime'  : 20000
         });
     },
     needsNewProjectile: function()
     {
-        return this.fireProjectileIn <= this.currentTime;
+        return this.fireProjectileTime <= this.currentTime;
     },
     setCurrentTime: function()
     {

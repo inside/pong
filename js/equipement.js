@@ -71,5 +71,9 @@ var Equipement = Class.create(
         }
 
         return this.diesIn >= currentTime;
+    },
+    remove: function()
+    {
+        this.domElement.remove();
     }
 });
