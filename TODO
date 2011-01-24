@@ -22,6 +22,7 @@ OK
     Decrease opponent's paddle size
     Increase ball speed when the ball hits the paddle
     Bullet (if opponent is hit, increase the shooter's score)
+    Invert controls (up becomes down and vice versa)
 
 A large paddle can catch a speed bonus for example, but bonuses and maluses
 can't be cumulative:
