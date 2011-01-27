@@ -24,13 +24,13 @@ var Ball = Class.create(Projectile,
     },
     handlePaddleRebound: function()
     {
-        if (Collision.overlap(this, this.container.leftPaddle))
+        if (this.hitsLeftPaddle())
         {
             this.x = this.container.leftPaddle.x + this.container.leftPaddle.width;
             this.reboundsOnPaddle(this.container.leftPaddle);
             this.setVelocity(this.getUnitVector(this.vX, this.vY));
         }
-        else if (Collision.overlap(this, this.container.rightPaddle))
+        else if (this.hitsRightPaddle())
         {
             this.x = this.container.rightPaddle.x - this.width;
             this.reboundsOnPaddle(this.container.rightPaddle);

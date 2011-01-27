@@ -3,11 +3,18 @@ var Projectile = Class.create(Equipement,
     speed         : 11,
     vX            : null,
     vY            : null,
+    direction     : 'random', // random, left, right
+    creationTime  : 0,        // milliseconds timestamp
+    lifeTime      : 0,        // milliseconds
+    diesIn        : 0,        // milliseconds timestamp
 
     initialize: function($super, p)
     {
         $super(p);
         this.resetPosition();
+        var date = new Date();
+        this.creationTime = date.getTime();
+        this.diesIn = this.creationTime + this.lifeTime;
     },
     resetPosition: function()
     {
@@ -44,7 +51,6 @@ var Projectile = Class.create(Equipement,
             this.y = this.container.height - this.height;
             this.setVelocity(this.getUnitVector(this.vX, this.vY));
         }
-
     },
     hitsLeftWall: function()
     {
@@ -62,9 +68,62 @@ var Projectile = Class.create(Equipement,
     {
         return this.y <= 0;
     },
+    hitsLeftPaddle: function()
+    {
+        return Collision.overlap(this, this.container.leftPaddle);
+    },
+    hitsRightPaddle: function()
+    {
+        return Collision.overlap(this, this.container.rightPaddle);
+    },
     setVelocity: function(vector)
     {
         this.vX = vector.e(1);
         this.vY = vector.e(2);
+    },
+    getInitialUnitVector: function()
+    {
+        var y = Math.round(Math.random() * 10) /  10; // random between 0 and 1
+
+        if (Math.round(Math.random())) // 50% of the time, go downwards
+        {
+            y *= -1;
+        }
+        if (this.direction === 'random')
+        {
+            var x = 1;
+
+            if (Math.round(Math.random()))
+            {
+                x *= -1;
+            }
+
+            return Vector.create([x, y]).toUnitVector();
+        }
+        else if (this.direction === 'left')
+        {
+            return Vector.create([-1, y]).toUnitVector();
+        }
+        else if (this.direction === 'right')
+        {
+            return Vector.create([1, y]).toUnitVector();
+        }
+    },
+    getUnitVector: function(vX, vY)
+    {
+        return Vector.create([vX, vY]).toUnitVector();
+    },
+    remove: function()
+    {
+        this.domElement.remove();
+    },
+    isLiving: function(currentTime)
+    {
+        if (this.lifeTime <= 0)
+        {
+            return true;
+        }
+
+        return this.diesIn >= currentTime;
     }
 });
