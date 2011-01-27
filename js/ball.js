@@ -1,67 +1,26 @@
-var Ball = Class.create(Equipement,
+var Ball = Class.create(Projectile,
 {
-    speed : 11,
-    vX    : null,
-    vY    : null,
-
     initialize: function($super, p)
     {
         $super(p);
         this.domElement.setAttribute('class', 'ball');
-        this.resetPosition();
     },
-    resetPosition: function()
+    move: function($super)
     {
-        this.x = (this.container.width / 2) - (this.width / 2);
-        this.y = (this.container.height / 2) - (this.height / 2);
-        this.setVelocity(this.getInitialUnitVector());
-        this.setPosition(this.x, this.y);
-    },
-    move: function()
-    {
-        this.x += this.vX * this.speed;
-        this.y += this.vY * this.speed;
+        $super();
 
         this.handlePaddleRebound();
-        this.handleLeftAndRightWalls();
-        this.handleFloorAndCeilingRebound();
-        
-        this.setPosition(this.x, this.y);
-    },
-    setVelocity: function(vector)
-    {
-        this.vX = vector.e(1);
-        this.vY = vector.e(2);
-    },
-    handleLeftAndRightWalls: function()
-    {
-        if (this.x <= 0)
+
+        if (this.hitsLeftWall())
         {
-            this.vX *= -1;
-            this.x = 0;
             this.container.rightPlayer.updateScore();
         }
-        else if (this.x >= this.container.width - this.width)
+        else if (this.hitsRightWall())
         {
-            this.vX *= -1;
-            this.x = this.container.width - this.width;
             this.container.leftPlayer.updateScore();
         }
-    },
-    handleFloorAndCeilingRebound: function()
-    {
-        if (this.y <= 0)
-        {
-            this.vY *= -1;
-            this.y = 0;
-            this.setVelocity(this.getUnitVector(this.vX, this.vY));
-        }
-        else if (this.y >= this.container.height - this.height)
-        {
-            this.vY *= -1;
-            this.y = this.container.height - this.height;
-            this.setVelocity(this.getUnitVector(this.vX, this.vY));
-        }
+
+        this.setPosition(this.x, this.y);
     },
     handlePaddleRebound: function()
     {
