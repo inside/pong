@@ -7,7 +7,7 @@ body
 {
     margin: auto;
     position: relative;
-    background-color: #dcf6db;
+    background-color: #000;
     clear: both;
 }
 
@@ -15,13 +15,24 @@ body
 #pong-right
 {
     position: absolute;
-    background-color: black;
+    background-color: #fff;
 }
 
 .projectile
 {
     background-color: blue;
     position: absolute;
+}
+
+.projectile span
+{
+    color: #fff;
+    white-space: nowrap;
+    font-size: 11px;
+    position: absolute;
+    font-weight: bold;
+    bottom: -15px;
+    left: -10px;
 }
 
 .ball

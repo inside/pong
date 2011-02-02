@@ -1,12 +1,13 @@
 var Projectile = Class.create(Equipement,
 {
-    speed         : 11,
+    speed         : 6,
     vX            : null,
     vY            : null,
     direction     : 'random', // random, left, right
     creationTime  : 0,        // milliseconds timestamp
     lifeTime      : 0,        // milliseconds
     diesIn        : 0,        // milliseconds timestamp
+    diesNow       : false,
 
     initialize: function($super, p)
     {
@@ -120,7 +121,11 @@ var Projectile = Class.create(Equipement,
     },
     isLiving: function(currentTime)
     {
-        if (this.lifeTime <= 0)
+        if (this.diesNow)
+        {
+            return false;
+        }
+        else if (this.lifeTime <= 0)
         {
             return true;
         }

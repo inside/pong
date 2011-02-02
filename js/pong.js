@@ -217,7 +217,6 @@ var Pong = Class.create(
                     'id'        : id,
                     'width'     : 10,
                     'height'    : 10,
-                    'speed'     : 6,
                     'lifeTime'  : 20000
                 });
                 break;
@@ -228,7 +227,6 @@ var Pong = Class.create(
                     'id'        : id,
                     'width'     : 10,
                     'height'    : 10,
-                    'speed'     : 10,
                     'lifeTime'  : 20000
                 });
                 break;

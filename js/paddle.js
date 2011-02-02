@@ -1,6 +1,6 @@
 var Paddle = Class.create(Equipement,
 {
-    speed       : 10,
+    speed       : 6,
     isGoingUp   : false,
     isGoingDown : false,
     position    : null,
