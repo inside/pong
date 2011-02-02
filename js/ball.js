@@ -3,7 +3,7 @@ var Ball = Class.create(Projectile,
     initialize: function($super, p)
     {
         $super(p);
-        this.domElement.setAttribute('class', 'ball');
+        this.domElement.addClassName('ball');
     },
     move: function($super)
     {

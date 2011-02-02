@@ -18,10 +18,20 @@ body
     background-color: black;
 }
 
+.projectile
+{
+    background-color: blue;
+    position: absolute;
+}
+
 .ball
 {
-    position: absolute;
     background-color: red;
+}
+
+.paddle-speed-power
+{
+    background-color: orange;
 }
 
 #score

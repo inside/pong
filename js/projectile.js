@@ -11,6 +11,7 @@ var Projectile = Class.create(Equipement,
     initialize: function($super, p)
     {
         $super(p);
+        this.domElement.addClassName('projectile');
         this.resetPosition();
         var date = new Date();
         this.creationTime = date.getTime();

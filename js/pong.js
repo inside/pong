@@ -1,24 +1,26 @@
 var Pong = Class.create(
 {
-    area                   : null,
-    updateIntervalId       : null,
-    updateInterval         : 30,   // milliseconds
-    replayDelay            : 1000, // milliseconds
-    width                  : 500,  // pixels
-    height                 : 250,  // pixels
-    leftPaddle             : null,
-    rightPaddle            : null,
-    leftPlayer             : null,
-    rightPlayer            : null,
-    projectiles            : [],
-    maxProjectiles         : 10,
-    paused                 : false,
-    started                : false,
-    maxScore               : 5,
-    fireProjectileTime     : 0,     // time
-    fireProjectileDelayMin : 5000,  // milliseconds
-    fireProjectileDelayMax : 10000, // milliseconds
-    currentTime            : 0,     // milliseconds
+    area                           : null,
+    updateIntervalId               : null,
+    updateInterval                 : 30,   // milliseconds
+    replayDelay                    : 1000, // milliseconds
+    width                          : 500,  // pixels
+    height                         : 250,  // pixels
+    leftPaddle                     : null,
+    rightPaddle                    : null,
+    leftPlayer                     : null,
+    rightPlayer                    : null,
+    projectiles                    : [],
+    availableWeightedProjectiles   : [['paddle-speed-power', 30],
+                                        ['ball', 70]],
+    maxProjectiles                 : 10,
+    paused                         : false,
+    started                        : false,
+    maxScore                       : 50,
+    fireProjectileTime             : 0,     // time
+    fireProjectileDelayMin         : 1000,  // milliseconds
+    fireProjectileDelayMax         : 2000, // milliseconds
+    currentTime                    : 0,     // milliseconds
 
     initialize: function(p)
     {
@@ -43,7 +45,7 @@ var Pong = Class.create(
             'position'  : 'right'
         });
 
-        this.projectiles.push(this.createNewBall());
+        this.projectiles.push(this.createNewProjectile('ball'));
         this.leftPlayer  = new Player({name: 'left'});
         this.rightPlayer = new Player({name: 'right'});
 
@@ -81,7 +83,7 @@ var Pong = Class.create(
 
             if (this.projectiles.length < this.maxProjectiles)
             {
-                this.projectiles.push(this.createNewBall());
+                this.projectiles.push(this.createNewProjectile());
             }
         }
 
@@ -180,8 +182,7 @@ var Pong = Class.create(
     initFireProjectileTime: function()
     {
         this.fireProjectileTime =
-            Math.ceil(Math.random() * (this.fireProjectileDelayMax - this.fireProjectileDelayMin)) +
-            this.fireProjectileDelayMin +
+            Helper.getRandomFromRange(this.fireProjectileDelayMin, this.fireProjectileDelayMax) +
             this.currentTime;
     },
     createNewBall: function()
@@ -196,6 +197,48 @@ var Pong = Class.create(
             'speed'     : 6,
             'lifeTime'  : 20000
         });
+    },
+    createNewProjectile: function(name)
+    {
+        if (typeof name === 'undefined')
+        {
+            var name = Helper.getWeightedRandomValue(this.availableWeightedProjectiles);
+        }
+
+        var id = 'pong-' + name + '-' + Math.ceil(Math.random() * 1000);
+        var projectile = null;
+
+        switch (name)
+        {
+            case 'ball':
+                projectile = new Ball(
+                {
+                    'container' : this,
+                    'id'        : id,
+                    'width'     : 10,
+                    'height'    : 10,
+                    'speed'     : 6,
+                    'lifeTime'  : 20000
+                });
+                break;
+            case 'paddle-speed-power':
+                projectile = new PaddleSpeedPower(
+                {
+                    'container' : this,
+                    'id'        : id,
+                    'width'     : 10,
+                    'height'    : 10,
+                    'speed'     : 10,
+                    'lifeTime'  : 20000
+                });
+                break;
+            default:
+                console.log('try to add an unknown projectile');
+                break;
+        }
+
+        return projectile;
+
     },
     needsNewProjectile: function()
     {
