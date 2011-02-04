@@ -10,6 +10,8 @@ var Pong = Class.create(
     rightPaddle                    : null,
     leftPlayer                     : null,
     rightPlayer                    : null,
+    paddleInitialSpeed             : 6,
+    powerProjectileInitialSpeed    : 2,
     projectiles                    : [],
     projectileIncrementalId        : 0,
     availableWeightedProjectiles   : [['paddle-speed-power', 30],

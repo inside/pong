@@ -1,14 +1,14 @@
 var Paddle = Class.create(Equipement,
 {
-    speed       : 6,
     isGoingUp   : false,
     isGoingDown : false,
     position    : null,
 
     initialize: function($super, p)
     {
-        this.position = p.position;
         $super(p);
+        this.position = p.position;
+        this.speed = this.container.paddleInitialSpeed;
         this.resetPosition();
     },
     resetPosition: function()
