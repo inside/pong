@@ -11,6 +11,7 @@ var Pong = Class.create(
     leftPlayer                     : null,
     rightPlayer                    : null,
     projectiles                    : [],
+    projectileIncrementalId        : 0,
     availableWeightedProjectiles   : [['paddle-speed-power', 30],
                                         ['ball', 70]],
     maxProjectiles                 : 10,
@@ -185,19 +186,6 @@ var Pong = Class.create(
             Helper.getRandomFromRange(this.fireProjectileDelayMin, this.fireProjectileDelayMax) +
             this.currentTime;
     },
-    createNewBall: function()
-    {
-        var id = 'pong-ball-' + Math.ceil(Math.random() * 1000);
-        return new Ball(
-        {
-            'container' : this,
-            'id'        : id,
-            'width'     : 10,
-            'height'    : 10,
-            'speed'     : 6,
-            'lifeTime'  : 20000
-        });
-    },
     createNewProjectile: function(name)
     {
         if (typeof name === 'undefined')
@@ -205,7 +193,7 @@ var Pong = Class.create(
             var name = Helper.getWeightedRandomValue(this.availableWeightedProjectiles);
         }
 
-        var id = 'pong-' + name + '-' + Math.ceil(Math.random() * 1000);
+        var id = 'pong-' + name + '-' + this.projectileIncrementalId++;
         var projectile = null;
 
         switch (name)
