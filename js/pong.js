@@ -30,7 +30,7 @@ var Pong = Class.create(
         this.area = document.createElement('div');
         this.area.setAttribute('id', 'pong-area');
         this.area.setAttribute('style', 'width: ' + this.width + 'px; height: ' + this.height + 'px;');
-        document.getElementsByTagName('body')[0].appendChild(this.area);
+        $('pong-placeholder').replace(this.area);
         this.leftPaddle = new Paddle(
         {
             'container' : this,
