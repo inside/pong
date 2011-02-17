@@ -8,16 +8,16 @@ var Paddle = Class.create(Equipement,
     {
         $super(p);
         this.position = p.position;
-        this.speed = this.container.paddleInitialSpeed;
+        this.speed = PADDLE_INITIAL_SPEED;
         this.resetPosition();
     },
     resetPosition: function()
     {
-        this.y = this.container.height / 2 - this.height / 2;
+        this.y = PONG_HEIGHT / 2 - this.height / 2;
 
         if (this.position === 'right')
         {
-            this.x = this.container.width - this.width;
+            this.x = PONG_WIDTH - this.width;
         }
         else if (this.position === 'left')
         {
@@ -45,9 +45,9 @@ var Paddle = Class.create(Equipement,
     {
         var y = this.y + this.speed;
 
-        if (y >= this.container.height - this.height)
+        if (y >= PONG_HEIGHT - this.height)
         {
-            this.y = this.container.height - this.height;
+            this.y = PONG_HEIGHT - this.height;
         }
         else
         {

@@ -1,14 +1,14 @@
 var PaddleSpeedPower = Class.create(Projectile,
 {
-    paddleSpeeds: [3, 17],
+    paddleSpeeds: [PADDLE_MIN_SPEED, PADDLE_MAX_SPEED],
     paddleSpeed: null,
     initialize: function($super, p)
     {
         $super(p);
-        this.speed = this.container.powerProjectileInitialSpeed;
+        this.speed = POWER_PROJECTILE_INITIAL_SPEED;
         this.paddleSpeed = this.paddleSpeeds[Math.round(Math.random())];
 
-        if (this.paddleSpeed > this.container.paddleInitialSpeed)
+        if (this.paddleSpeed > PADDLE_INITIAL_SPEED)
         {
             this.domElement.insert({bottom: '<span>speed + 1</span>'});
             this.domElement.addClassName('paddle-speed-power bonus');

@@ -1,25 +1,19 @@
 var Pong = Class.create(
 {
+    // DOM elements
     area                           : null,
-    updateIntervalId               : null,
-    updateInterval                 : 30,   // milliseconds
-    replayDelay                    : 1000, // milliseconds
-    width                          : 500,  // pixels
-    height                         : 250,  // pixels
     leftPaddle                     : null,
     rightPaddle                    : null,
+
+    frameRateId                    : null,
     leftPlayer                     : null,
     rightPlayer                    : null,
-    paddleInitialSpeed             : 6,
-    powerProjectileInitialSpeed    : 2,
     projectiles                    : [],
     projectileIncrementalId        : 0,
     availableWeightedProjectiles   : [['paddle-speed-power', 30],
                                         ['ball', 70]],
-    maxProjectiles                 : 10,
     paused                         : false,
     started                        : false,
-    maxScore                       : 50,
     fireProjectileTime             : 0,     // time
     fireProjectileDelayMin         : 1000,  // milliseconds
     fireProjectileDelayMax         : 2000, // milliseconds
@@ -29,7 +23,7 @@ var Pong = Class.create(
     {
         this.area = document.createElement('div');
         this.area.setAttribute('id', 'pong-area');
-        this.area.setAttribute('style', 'width: ' + this.width + 'px; height: ' + this.height + 'px;');
+        this.area.setAttribute('style', 'width: ' + PONG_WIDTH + 'px; height: ' + PONG_HEIGHT + 'px;');
         $('pong-placeholder').replace(this.area);
         this.leftPaddle = new Paddle(
         {
@@ -84,7 +78,7 @@ var Pong = Class.create(
         {
             this.initFireProjectileTime();
 
-            if (this.projectiles.length < this.maxProjectiles)
+            if (this.projectiles.length < MAX_PROJECTILES)
             {
                 this.projectiles.push(this.createNewProjectile());
             }
@@ -105,7 +99,7 @@ var Pong = Class.create(
         }
 
         // Score
-        if (this.leftPlayer.hasReachedScore(this.maxScore))
+        if (this.leftPlayer.hasReachedScore(MAX_SCORE))
         {
             console.log('Left player won with ' +
                 this.leftPlayer.score +
@@ -113,7 +107,7 @@ var Pong = Class.create(
                 this.rightPlayer.score);
             this.stop();
         }
-        else if (this.rightPlayer.hasReachedScore(this.maxScore))
+        else if (this.rightPlayer.hasReachedScore(MAX_SCORE))
         {
             console.log('Right player won with ' +
                 this.rightPlayer.score +
@@ -137,8 +131,8 @@ var Pong = Class.create(
     {
         this.started = false;
         this.paused  = true;
-        clearInterval(this.updateIntervalId);
-        this.updateIntervalId = null;
+        clearInterval(this.frameRateId);
+        this.frameRateId = null;
         this.projectiles.each(function(projectile)
         {
             projectile.resetPosition();
@@ -150,8 +144,8 @@ var Pong = Class.create(
     {
         this.started = true;
         this.paused  = true;
-        clearInterval(this.updateIntervalId);
-        this.updateIntervalId = null;
+        clearInterval(this.frameRateId);
+        this.frameRateId = null;
     },
     pursue: function()
     {
@@ -159,8 +153,8 @@ var Pong = Class.create(
         this.paused           = false;
         this.setCurrentTime();
         this.initFireProjectileTime();
-        this.updateIntervalId =
-            setInterval(this.update.bind(this), this.updateInterval);
+        this.frameRateId =
+            setInterval(this.update.bind(this), Math.round(1000 / FRAME_RATE));
     },
     togglePause: function()
     {
@@ -176,11 +170,6 @@ var Pong = Class.create(
         {
             this.pause();
         }
-    },
-    replay: function()
-    {
-        this.pause();
-        setTimeout(this.stop.bind(this), this.replayDelay);
     },
     initFireProjectileTime: function()
     {

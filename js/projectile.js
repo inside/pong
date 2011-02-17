@@ -20,8 +20,8 @@ var Projectile = Class.create(Equipement,
     },
     resetPosition: function()
     {
-        this.x = (this.container.width / 2) - (this.width / 2);
-        this.y = (this.container.height / 2) - (this.height / 2);
+        this.x = (PONG_WIDTH / 2) - (this.width / 2);
+        this.y = (PONG_HEIGHT / 2) - (this.height / 2);
         this.setVelocity(this.getInitialUnitVector());
         this.setPosition(this.x, this.y);
     },
@@ -38,7 +38,7 @@ var Projectile = Class.create(Equipement,
         else if (this.hitsRightWall())
         {
             this.vX *= -1;
-            this.x = this.container.width - this.width;
+            this.x = PONG_WIDTH - this.width;
         }
 
         if (this.hitsCeiling())
@@ -50,7 +50,7 @@ var Projectile = Class.create(Equipement,
         else if (this.hitsFloor())
         {
             this.vY *= -1;
-            this.y = this.container.height - this.height;
+            this.y = PONG_HEIGHT - this.height;
             this.setVelocity(this.getUnitVector(this.vX, this.vY));
         }
     },
@@ -60,11 +60,11 @@ var Projectile = Class.create(Equipement,
     },
     hitsRightWall: function()
     {
-        return this.x >= this.container.width - this.width;
+        return this.x >= PONG_WIDTH - this.width;
     },
     hitsFloor: function()
     {
-        return this.y >= this.container.height - this.height;
+        return this.y >= PONG_HEIGHT - this.height;
     },
     hitsCeiling: function()
     {
