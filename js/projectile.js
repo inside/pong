@@ -1,6 +1,6 @@
 var Projectile = Class.create(Equipement,
 {
-    speed         : 6,
+    speed         : null,
     vX            : null,
     vY            : null,
     direction     : 'random', // random, left, right
@@ -13,7 +13,6 @@ var Projectile = Class.create(Equipement,
     {
         $super(p);
         this.domElement.addClassName('projectile');
-        this.resetPosition();
         var date = new Date();
         this.creationTime = date.getTime();
         this.diesIn = this.creationTime + this.lifeTime;

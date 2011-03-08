@@ -2,6 +2,9 @@ var Ball = Class.create(Projectile,
 {
     initialize: function($super, p)
     {
+        this.width = BALL_INITIAL_WIDTH;
+        this.height = BALL_INITIAL_HEIGHT;
+        this.speed = BALL_INITIAL_SPEED;
         $super(p);
         this.domElement.addClassName('ball');
     },

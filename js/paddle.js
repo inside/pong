@@ -2,24 +2,25 @@ var Paddle = Class.create(Equipement,
 {
     isGoingUp   : false,
     isGoingDown : false,
-    position    : null,
+    side        : null,
 
     initialize: function($super, p)
     {
-        $super(p);
-        this.position = p.position;
+        this.side = p.side;
+        this.width = PADDLE_INITIAL_WIDTH;
+        this.height = PADDLE_INITIAL_HEIGHT;
         this.speed = PADDLE_INITIAL_SPEED;
-        this.resetPosition();
+        $super(p);
     },
     resetPosition: function()
     {
         this.y = PONG_HEIGHT / 2 - this.height / 2;
 
-        if (this.position === 'right')
+        if (this.side === 'right')
         {
             this.x = PONG_WIDTH - this.width;
         }
-        else if (this.position === 'left')
+        else if (this.side === 'left')
         {
             this.x = 0;
         }

@@ -4,9 +4,11 @@ var PaddleSpeedPower = Class.create(Projectile,
     paddleSpeed: null,
     initialize: function($super, p)
     {
-        $super(p);
+        this.width = POWER_PROJECTILE_INITIAL_WIDTH;
+        this.height = POWER_PROJECTILE_INITIAL_HEIGHT;
         this.speed = POWER_PROJECTILE_INITIAL_SPEED;
         this.paddleSpeed = this.paddleSpeeds[Math.round(Math.random())];
+        $super(p);
 
         if (this.paddleSpeed > PADDLE_INITIAL_SPEED)
         {

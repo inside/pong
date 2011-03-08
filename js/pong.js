@@ -29,17 +29,13 @@ var Pong = Class.create(
         {
             'container' : this,
             'id'        : 'pong-left',
-            'width'     : 6,
-            'height'    : 60,
-            'position'  : 'left'
+            'side'      : 'left'
         });
         this.rightPaddle = new Paddle(
         {
             'container' : this,
             'id'        : 'pong-right',
-            'width'     : 6,
-            'height'    : 60,
-            'position'  : 'right'
+            'side'      : 'right'
         });
 
         this.projectiles.push(this.createNewProjectile('ball'));
@@ -194,8 +190,6 @@ var Pong = Class.create(
                 {
                     'container' : this,
                     'id'        : id,
-                    'width'     : 10,
-                    'height'    : 10,
                     'lifeTime'  : 20000
                 });
                 break;
@@ -204,8 +198,6 @@ var Pong = Class.create(
                 {
                     'container' : this,
                     'id'        : id,
-                    'width'     : 10,
-                    'height'    : 10,
                     'lifeTime'  : 20000
                 });
                 break;

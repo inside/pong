@@ -17,7 +17,7 @@ var Equipement = Class.create(
         el.setAttribute('style', 'width: ' + this.width + 'px; height: ' + this.height + 'px;');
         this.container.area.appendChild(el);
         this.domElement = $(this.id);
-        this.setPosition(this.x, this.y);
+        this.resetPosition();
     },
     setPosition: function(x, y)
     {
