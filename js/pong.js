@@ -21,9 +21,8 @@ var Pong = Class.create(
 
     initialize: function(p)
     {
-        this.area = document.createElement('div');
-        this.area.setAttribute('id', 'pong-area');
-        this.area.setAttribute('style', 'width: ' + PONG_WIDTH + 'px; height: ' + PONG_HEIGHT + 'px;');
+        this.area = new Element('div', {id: 'pong-area'});
+        this.area.setStyle({width: PONG_WIDTH + 'px', height: PONG_HEIGHT + 'px'});
         $('pong-placeholder').replace(this.area);
         this.leftPaddle = new Paddle(
         {
@@ -189,16 +188,14 @@ var Pong = Class.create(
                 projectile = new Ball(
                 {
                     'container' : this,
-                    'id'        : id,
-                    'lifeTime'  : 20000
+                    'id'        : id
                 });
                 break;
             case 'paddle-speed-power':
                 projectile = new PaddleSpeedPower(
                 {
                     'container' : this,
-                    'id'        : id,
-                    'lifeTime'  : 20000
+                    'id'        : id
                 });
                 break;
             default:

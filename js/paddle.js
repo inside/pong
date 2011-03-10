@@ -1,15 +1,14 @@
 var Paddle = Class.create(Equipement,
 {
+    width       : PADDLE_INITIAL_WIDTH,
+    height      : PADDLE_INITIAL_HEIGHT,
+    speed       : PADDLE_INITIAL_SPEED,
     isGoingUp   : false,
     isGoingDown : false,
-    side        : null,
+    side        : null, // left or right
 
     initialize: function($super, p)
     {
-        this.side = p.side;
-        this.width = PADDLE_INITIAL_WIDTH;
-        this.height = PADDLE_INITIAL_HEIGHT;
-        this.speed = PADDLE_INITIAL_SPEED;
         $super(p);
     },
     resetPosition: function()

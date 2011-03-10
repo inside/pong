@@ -4,9 +4,9 @@ var Projectile = Class.create(Equipement,
     vX            : null,
     vY            : null,
     direction     : 'random', // random, left, right
-    creationTime  : 0,        // milliseconds timestamp
-    lifeTime      : 0,        // milliseconds
-    diesIn        : 0,        // milliseconds timestamp
+    creationTime  : 0, // milliseconds timestamp
+    lifeTime      : PROJECTILES_DEFAULT_LIFETIME, // milliseconds
+    diesIn        : 0, // milliseconds timestamp
     diesNow       : false,
 
     initialize: function($super, p)

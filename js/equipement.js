@@ -12,9 +12,8 @@ var Equipement = Class.create(
     initialize: function(p)
     {
         Object.extend(this, p);
-        var el = document.createElement('div');
-        el.setAttribute('id', this.id);
-        el.setAttribute('style', 'width: ' + this.width + 'px; height: ' + this.height + 'px;');
+        var el =  new Element('div', {id: this.id});
+        el.setStyle({width: this.width + 'px', height: this.height + 'px'});
         this.container.area.appendChild(el);
         this.domElement = $(this.id);
         this.resetPosition();
