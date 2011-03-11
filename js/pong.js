@@ -5,6 +5,7 @@ var Pong = Class.create(
     leftPaddle                     : null,
     rightPaddle                    : null,
 
+    frameRate                      : 0,
     frameRateId                    : null,
     leftPlayer                     : null,
     rightPlayer                    : null,
@@ -18,9 +19,11 @@ var Pong = Class.create(
     fireProjectileDelayMin         : 1000,  // milliseconds
     fireProjectileDelayMax         : 2000, // milliseconds
     currentTime                    : 0,     // milliseconds
+    updateDuration                 : 0,     // milliseconds
 
     initialize: function(p)
     {
+        this.frameRate = Math.round(1000 / FRAME_RATE);
         this.area = new Element('div', {id: 'pong-area'});
         this.area.setStyle({width: PONG_WIDTH + 'px', height: PONG_HEIGHT + 'px'});
         $('pong-placeholder').replace(this.area);
@@ -48,7 +51,7 @@ var Pong = Class.create(
     },
     update: function()
     {
-        this.setCurrentTime();
+        this.currentTime = this.getTime();
 
         // Paddles
         if (this.leftPaddle.isGoingUp)
@@ -110,6 +113,13 @@ var Pong = Class.create(
                 this.leftPlayer.score);
             this.stop();
         }
+
+        this.updateDuration = this.getTime() - this.currentTime;
+
+        console.log(this.updateDuration);
+        var timeout = this.frameRate - this.updateDuration;
+        this.frameRateId = setTimeout(this.update.bind(this),
+                                      (timeout > 0 ? timeout : 0));
     },
     start: function()
     {
@@ -126,7 +136,7 @@ var Pong = Class.create(
     {
         this.started = false;
         this.paused  = true;
-        clearInterval(this.frameRateId);
+        clearTimeout(this.frameRateId);
         this.frameRateId = null;
         this.projectiles.each(function(projectile)
         {
@@ -139,17 +149,16 @@ var Pong = Class.create(
     {
         this.started = true;
         this.paused  = true;
-        clearInterval(this.frameRateId);
+        clearTimeout(this.frameRateId);
         this.frameRateId = null;
     },
     pursue: function()
     {
         this.started          = true;
         this.paused           = false;
-        this.setCurrentTime();
+        this.currentTime = this.getTime();
         this.initFireProjectileTime();
-        this.frameRateId =
-            setInterval(this.update.bind(this), Math.round(1000 / FRAME_RATE));
+        this.frameRateId = setTimeout(this.update.bind(this), 0);
     },
     togglePause: function()
     {
@@ -204,15 +213,14 @@ var Pong = Class.create(
         }
 
         return projectile;
-
     },
     needsNewProjectile: function()
     {
         return this.fireProjectileTime <= this.currentTime;
     },
-    setCurrentTime: function()
+    getTime: function()
     {
         var date = new Date();
-        this.currentTime = date.getTime();
+        return date.getTime();
     }
 });
