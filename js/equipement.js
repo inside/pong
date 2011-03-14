@@ -22,5 +22,11 @@ var Equipement = Class.create(
     {
        this.domElement.style.left = x + 'px';
        this.domElement.style.top  = y + 'px';
+    },
+    getAdjustedSpeed: function()
+    {
+        return this.timeout > 0 ?
+                (this.speed * this.timeout) / this.frameRate :
+                this.speed;
     }
 });

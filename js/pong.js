@@ -20,6 +20,7 @@ var Pong = Class.create(
     fireProjectileDelayMax         : 2000, // milliseconds
     currentTime                    : 0,     // milliseconds
     updateDuration                 : 0,     // milliseconds
+    timeout                        : 0,     // milliseconds
 
     initialize: function(p)
     {
@@ -51,7 +52,10 @@ var Pong = Class.create(
     },
     update: function()
     {
+        this.timeout = this.getTime() - this.currentTime;
         this.currentTime = this.getTime();
+//        this.timeout = this.frameRate - this.updateDuration;
+//        this.timeout = this.frameRate - this.updateDuration;
 
         // Paddles
         if (this.leftPaddle.isGoingUp)
@@ -114,12 +118,10 @@ var Pong = Class.create(
             this.stop();
         }
 
-        this.updateDuration = this.getTime() - this.currentTime;
-
-        console.log(this.updateDuration);
-        var timeout = this.frameRate - this.updateDuration;
-        this.frameRateId = setTimeout(this.update.bind(this),
-                                      (timeout > 0 ? timeout : 0));
+//        this.frameRateId = setTimeout(this.update.bind(this),
+//                                      (this.timeout > 0 ? this.timeout : 0));
+//        this.frameRateId = setTimeout(this.update.bind(this), this.frameRate - this.timeout);
+        this.frameRateId = setTimeout(this.update.bind(this), this.frameRate - (this.getTime() - this.currentTime));
     },
     start: function()
     {

@@ -28,7 +28,8 @@ var Paddle = Class.create(Equipement,
     },
     moveUp: function()
     {
-        var y = this.y - this.speed;
+//        var y = this.y - this.getAdjustedSpeed();
+        var y = this.y - this.speed * this.container.timeout;
 
         if (y <= 0)
         {
@@ -43,7 +44,8 @@ var Paddle = Class.create(Equipement,
     },
     moveDown: function()
     {
-        var y = this.y + this.speed;
+//        var y = this.y + this.getAdjustedSpeed();
+        var y = this.y + this.speed * this.container.timeout;
 
         if (y >= PONG_HEIGHT - this.height)
         {

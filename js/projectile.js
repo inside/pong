@@ -26,8 +26,12 @@ var Projectile = Class.create(Equipement,
     },
     move: function()
     {
-        this.x += this.vX * (this.speed - this.container.updateDuration);
-        this.y += this.vY * (this.speed - this.container.updateDuration);
+//        var adjustedSpeed = this.getAdjustedSpeed();
+
+//        this.x += this.vX * adjustedSpeed;
+//        this.y += this.vY * adjustedSpeed;
+        this.x += this.vX * this.speed * this.container.timeout;
+        this.y += this.vY * this.speed * this.container.timeout;
 
         if (this.hitsLeftWall())
         {
