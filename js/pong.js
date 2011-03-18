@@ -5,8 +5,8 @@ var Pong = Class.create(
     leftPaddle                     : null,
     rightPaddle                    : null,
 
-    frameRate                      : 0,
-    frameRateId                    : null,
+    period                      : 0,
+    periodId                    : null,
     leftPlayer                     : null,
     rightPlayer                    : null,
     projectiles                    : [],
@@ -18,13 +18,12 @@ var Pong = Class.create(
     fireProjectileTime             : 0,     // time
     fireProjectileDelayMin         : 1000,  // milliseconds
     fireProjectileDelayMax         : 2000, // milliseconds
-    currentTime                    : 0,     // milliseconds
-    updateDuration                 : 0,     // milliseconds
+    startTime                      : 0,     // milliseconds
     timeout                        : 0,     // milliseconds
 
     initialize: function(p)
     {
-        this.frameRate = Math.round(1000 / FRAME_RATE);
+        this.period = Math.round(1000 / FRAME_RATE);
         this.area = new Element('div', {id: 'pong-area'});
         this.area.setStyle({width: PONG_WIDTH + 'px', height: PONG_HEIGHT + 'px'});
         $('pong-placeholder').replace(this.area);
@@ -52,10 +51,8 @@ var Pong = Class.create(
     },
     update: function()
     {
-        this.timeout = this.getTime() - this.currentTime;
-        this.currentTime = this.getTime();
-//        this.timeout = this.frameRate - this.updateDuration;
-//        this.timeout = this.frameRate - this.updateDuration;
+        this.timeout = Helper.getTime() - this.startTime;
+        this.startTime = Helper.getTime();
 
         // Paddles
         if (this.leftPaddle.isGoingUp)
@@ -88,7 +85,7 @@ var Pong = Class.create(
 
         for (var i = 0; i < this.projectiles.length; i++)
         {
-            if (this.projectiles[i].isLiving(this.currentTime))
+            if (this.projectiles[i].isLiving(this.startTime))
             {
                 this.projectiles[i].move();
             }
@@ -118,10 +115,7 @@ var Pong = Class.create(
             this.stop();
         }
 
-//        this.frameRateId = setTimeout(this.update.bind(this),
-//                                      (this.timeout > 0 ? this.timeout : 0));
-//        this.frameRateId = setTimeout(this.update.bind(this), this.frameRate - this.timeout);
-        this.frameRateId = setTimeout(this.update.bind(this), this.frameRate - (this.getTime() - this.currentTime));
+        this.periodId = setTimeout(this.update.bind(this), this.period - (Helper.getTime() - this.startTime));
     },
     start: function()
     {
@@ -138,8 +132,8 @@ var Pong = Class.create(
     {
         this.started = false;
         this.paused  = true;
-        clearTimeout(this.frameRateId);
-        this.frameRateId = null;
+        clearTimeout(this.periodId);
+        this.periodId = null;
         this.projectiles.each(function(projectile)
         {
             projectile.resetPosition();
@@ -151,16 +145,16 @@ var Pong = Class.create(
     {
         this.started = true;
         this.paused  = true;
-        clearTimeout(this.frameRateId);
-        this.frameRateId = null;
+        clearTimeout(this.periodId);
+        this.periodId = null;
     },
     pursue: function()
     {
-        this.started          = true;
-        this.paused           = false;
-        this.currentTime = this.getTime();
+        this.started = true;
+        this.paused = false;
+        this.startTime = Helper.getTime();
         this.initFireProjectileTime();
-        this.frameRateId = setTimeout(this.update.bind(this), 0);
+        this.periodId = setTimeout(this.update.bind(this), 0);
     },
     togglePause: function()
     {
@@ -181,7 +175,7 @@ var Pong = Class.create(
     {
         this.fireProjectileTime =
             Helper.getRandomFromRange(this.fireProjectileDelayMin, this.fireProjectileDelayMax) +
-            this.currentTime;
+            this.startTime;
     },
     createNewProjectile: function(name)
     {
@@ -218,11 +212,6 @@ var Pong = Class.create(
     },
     needsNewProjectile: function()
     {
-        return this.fireProjectileTime <= this.currentTime;
-    },
-    getTime: function()
-    {
-        var date = new Date();
-        return date.getTime();
+        return this.fireProjectileTime <= this.startTime;
     }
 });

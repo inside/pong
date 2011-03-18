@@ -13,8 +13,7 @@ var Projectile = Class.create(Equipement,
     {
         $super(p);
         this.domElement.addClassName('projectile');
-        var date = new Date();
-        this.creationTime = date.getTime();
+        this.creationTime = Helper.getTime();
         this.diesIn = this.creationTime + this.lifeTime;
     },
     resetPosition: function()

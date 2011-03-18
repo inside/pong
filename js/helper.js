@@ -28,5 +28,10 @@ var Helper =
         }
 
         return weightedValues[i][0];
+    },
+    getTime: function()
+    {
+        var date = new Date();
+        return date.getTime();
     }
 };
