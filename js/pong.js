@@ -5,8 +5,8 @@ var Pong = Class.create(
     leftPaddle                     : null,
     rightPaddle                    : null,
 
-    period                      : 0,
-    periodId                    : null,
+    period                         : 0,
+    timeoutId                      : null,
     leftPlayer                     : null,
     rightPlayer                    : null,
     projectiles                    : [],
@@ -19,7 +19,7 @@ var Pong = Class.create(
     fireProjectileDelayMin         : 1000,  // milliseconds
     fireProjectileDelayMax         : 2000, // milliseconds
     startTime                      : 0,     // milliseconds
-    timeout                        : 0,     // milliseconds
+    time                           : 0,     // milliseconds
 
     initialize: function(p)
     {
@@ -49,9 +49,9 @@ var Pong = Class.create(
         document.observe('keydown', keyboard.keyDownHandler.bind(keyboard, this));
         document.observe('keyup', keyboard.keyUpHandler.bind(keyboard, this));
     },
-    update: function()
+    draw: function()
     {
-        this.timeout = Helper.getTime() - this.startTime;
+        this.time = Helper.getTime() - this.startTime;
         this.startTime = Helper.getTime();
 
         // Paddles
@@ -115,7 +115,7 @@ var Pong = Class.create(
             this.stop();
         }
 
-        this.periodId = setTimeout(this.update.bind(this), this.period - (Helper.getTime() - this.startTime));
+        this.timeoutId = setTimeout(this.draw.bind(this), this.period - (Helper.getTime() - this.startTime));
     },
     start: function()
     {
@@ -132,8 +132,8 @@ var Pong = Class.create(
     {
         this.started = false;
         this.paused  = true;
-        clearTimeout(this.periodId);
-        this.periodId = null;
+        clearTimeout(this.timeoutId);
+        this.timeoutId = null;
         this.projectiles.each(function(projectile)
         {
             projectile.resetPosition();
@@ -145,8 +145,8 @@ var Pong = Class.create(
     {
         this.started = true;
         this.paused  = true;
-        clearTimeout(this.periodId);
-        this.periodId = null;
+        clearTimeout(this.timeoutId);
+        this.timeoutId = null;
     },
     pursue: function()
     {
@@ -154,7 +154,7 @@ var Pong = Class.create(
         this.paused = false;
         this.startTime = Helper.getTime();
         this.initFireProjectileTime();
-        this.periodId = setTimeout(this.update.bind(this), 0);
+        this.timeoutId = setTimeout(this.draw.bind(this), 0);
     },
     togglePause: function()
     {
