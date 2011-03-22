@@ -49,7 +49,7 @@ var Pong = Class.create(
         document.observe('keydown', keyboard.keyDownHandler.bind(keyboard, this));
         document.observe('keyup', keyboard.keyUpHandler.bind(keyboard, this));
     },
-    draw: function()
+    update: function()
     {
         this.time = Helper.getTime() - this.startTime;
         this.startTime = Helper.getTime();
@@ -105,6 +105,7 @@ var Pong = Class.create(
                 ' points. Right player lost with ' +
                 this.rightPlayer.score);
             this.stop();
+            return;
         }
         else if (this.rightPlayer.hasReachedScore(MAX_SCORE))
         {
@@ -113,9 +114,21 @@ var Pong = Class.create(
                 ' points. Left player lost with ' +
                 this.leftPlayer.score);
             this.stop();
+            return;
         }
 
-        this.timeoutId = setTimeout(this.draw.bind(this), this.period - (Helper.getTime() - this.startTime));
+        this.timeoutId = setTimeout(this.update.bind(this), this.getNextFrameDelay());
+    },
+    getNextFrameDelay: function()
+    {
+        var processingTime = Helper.getTime() - this.startTime;
+
+        if (this.period < processingTime)
+        {
+            return 0;
+        }
+
+        return this.period - processingTime;
     },
     start: function()
     {
@@ -134,10 +147,14 @@ var Pong = Class.create(
         this.paused  = true;
         clearTimeout(this.timeoutId);
         this.timeoutId = null;
+
         this.projectiles.each(function(projectile)
         {
-            projectile.resetPosition();
+            projectile.remove();
         });
+
+        this.projectiles = [];
+        this.projectiles.push(this.createNewProjectile('ball'));
         this.leftPaddle.resetPosition();
         this.rightPaddle.resetPosition();
     },
@@ -154,7 +171,7 @@ var Pong = Class.create(
         this.paused = false;
         this.startTime = Helper.getTime();
         this.initFireProjectileTime();
-        this.timeoutId = setTimeout(this.draw.bind(this), 0);
+        this.timeoutId = setTimeout(this.update.bind(this), 0);
     },
     togglePause: function()
     {

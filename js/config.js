@@ -1,11 +1,11 @@
-const FRAME_RATE = 60; // 30 to 100
+const FRAME_RATE = 60; // 30 to 100 images per second
 const MAX_SCORE = 50;
 const PONG_WIDTH = 500;
 const PONG_HEIGHT = 250;
 
-const PADDLE_INITIAL_SPEED = 0.6;
-const PADDLE_MIN_SPEED = 0.3;
-const PADDLE_MAX_SPEED = 0.12;
+const PADDLE_INITIAL_SPEED = 0.2;
+const PADDLE_MIN_SPEED = 0.1;
+const PADDLE_MAX_SPEED = 0.5;
 const PADDLE_INITIAL_WIDTH = 6;
 const PADDLE_INITIAL_HEIGHT = 60;
 
