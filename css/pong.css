@@ -1,0 +1,78 @@
+body
+{
+    background-color: #fff;
+}
+
+h1
+{
+    font-size: 16px;
+}
+
+#pong-area
+{
+    margin: auto;
+    position: relative;
+    background-color: #000;
+    clear: both;
+}
+
+#pong-left,
+#pong-right
+{
+    position: absolute;
+    background-color: #fff;
+}
+
+.projectile
+{
+    background-color: blue;
+    position: absolute;
+}
+
+.projectile span
+{
+    color: #fff;
+    white-space: nowrap;
+    font-size: 11px;
+    position: absolute;
+    font-weight: bold;
+    bottom: -15px;
+    left: -10px;
+}
+
+.ball
+{
+    background-color: #fff;
+}
+
+.paddle-speed-power.bonus
+{
+    background-color: orange;
+}
+
+.paddle-speed-power.malus
+{
+    background-color: red;
+}
+
+#score
+{
+    margin: auto;
+    width: 600px;
+    height: 50px;
+}
+
+#score span
+{
+    font-size: 24px;
+}
+
+#score #left
+{
+    float: left;
+}
+
+#score #right
+{
+    float: right;
+}

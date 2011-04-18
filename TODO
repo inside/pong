@@ -1,0 +1,49 @@
+* Set a max ball number conf value. This avoids the game to be over crowded.
+OK
+
+* Handle bonuses and maluses.
+
+They appear on the board every "random number between 1 and 10" seconds.
+OK
+
+They need to be catched by the paddle.
+
+They have a lifetime of maybe 10 seconds.
+OK
+
+    Extra ball (make an additionnal ball appear in the game area's center)
+    Increase paddle speed
+    Decrease paddle speed
+    Increase opponent's paddle speed
+    Decrease opponent's paddle speed
+    Increase paddle size
+    Decrease paddle size
+    Increase opponent's paddle size
+    Decrease opponent's paddle size
+    Increase ball speed when the ball hits the paddle
+    Bullet (if opponent is hit, increase the shooter's score)
+    Invert controls (up becomes down and vice versa)
+
+A large paddle can catch a speed bonus for example, but bonuses and maluses
+can't be cumulative:
+    If the paddle is already large it can't be larger
+    If the paddle hasn't fired a bullet it can't grab anymore bullets
+
+* Use canvas instead of html/css
+
+* Use images to represent paddles, projectiles, bonuses.
+
+* Use a nice background image.
+
+* Integrate sounds
+    When paddles hit balls
+    When balls hit walls
+    When bonuses are catched
+    Background sounds
+
+* Keys have to be configurable. By default:
+
+        Left player     Right player
+Up        i               up arrow
+Down      k               down arrow
+Shoot     l               left arrow
