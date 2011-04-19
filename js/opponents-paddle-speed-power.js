@@ -1,8 +1,5 @@
-var OpponentsPaddleSpeedPower = Class.create(Projectile,
+var OpponentsPaddleSpeedPower = Class.create(PaddlePower,
 {
-    width        : POWER_PROJECTILE_INITIAL_WIDTH,
-    height       : POWER_PROJECTILE_INITIAL_HEIGHT,
-    speed        : POWER_PROJECTILE_INITIAL_SPEED,
     paddleSpeed  : null,
     paddleSpeeds : [PADDLE_MIN_SPEED, PADDLE_MAX_SPEED],
 

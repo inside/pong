@@ -1,8 +1,5 @@
-var PaddleHeightPower = Class.create(Projectile,
+var PaddleHeightPower = Class.create(PaddlePower,
 {
-    width         : POWER_PROJECTILE_INITIAL_WIDTH,
-    height        : POWER_PROJECTILE_INITIAL_HEIGHT,
-    speed         : POWER_PROJECTILE_INITIAL_SPEED,
     paddleHeight  : null,
     paddleHeights : [PADDLE_MIN_HEIGHT, PADDLE_MAX_HEIGHT],
 
