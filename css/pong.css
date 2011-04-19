@@ -45,12 +45,14 @@ h1
     background-color: #fff;
 }
 
-.paddle-speed-power.bonus
+.bonus,
+.opponent.malus
 {
     background-color: orange;
 }
 
-.paddle-speed-power.malus
+.malus,
+.opponent.bonus
 {
     background-color: red;
 }

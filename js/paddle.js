@@ -26,6 +26,19 @@ var Paddle = Class.create(Equipement,
 
         this.setPosition(this.x, this.y);
     },
+    resetSpeed: function()
+    {
+        this.speed = PADDLE_INITIAL_SPEED;
+    },
+    resetHeight: function()
+    {
+        this.height = PADDLE_INITIAL_HEIGHT;
+        this.setHeight(this.height);
+    },
+    setHeight: function(height)
+    {
+        this.domElement.setStyle({height: height + 'px'});
+    },
     moveUp: function()
     {
         var y = this.y - this.speed * this.container.time;

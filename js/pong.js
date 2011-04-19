@@ -11,8 +11,12 @@ var Pong = Class.create(
     rightPlayer                    : null,
     projectiles                    : [],
     projectileIncrementalId        : 0,
-    availableWeightedProjectiles   : [['paddle-speed-power', 30],
-                                        ['ball', 70]],
+    availableWeightedProjectiles   : [
+                                        ['paddle-speed-power', 10],
+                                        ['opponents-paddle-speed-power', 10],
+                                        ['paddle-height-power', 10],
+                                        ['ball', 70]
+                                     ],
     paused                         : false,
     started                        : false,
     fireProjectileTime             : 0,     // time
@@ -96,6 +100,9 @@ var Pong = Class.create(
                 this.projectiles = this.projectiles.compact();
             }
         }
+
+        // Power timer
+        this.handlePowerTimer();
 
         // Score
         if (this.leftPlayer.hasReachedScore(MAX_SCORE))
@@ -220,6 +227,20 @@ var Pong = Class.create(
                     'id'        : id
                 });
                 break;
+            case 'opponents-paddle-speed-power':
+                projectile = new OpponentsPaddleSpeedPower(
+                {
+                    'container' : this,
+                    'id'        : id
+                });
+                break;
+            case 'paddle-height-power':
+                projectile = new PaddleHeightPower(
+                {
+                    'container' : this,
+                    'id'        : id
+                });
+                break;
             default:
                 console.log('try to add an unknown projectile');
                 break;
@@ -230,5 +251,30 @@ var Pong = Class.create(
     needsNewProjectile: function()
     {
         return this.fireProjectileTime <= this.startTime;
+    },
+    handlePowerTimer: function()
+    {
+        if (PowerTimer.leftPaddlePowers.size() > 0)
+        {
+            PowerTimer.leftPaddlePowers.each(function(pair)
+            {
+                if (pair.value[0] + POWER_LIFETIME <= this.startTime)
+                {
+                    pair.value[1]();
+                    PowerTimer.leftPaddlePowers.unset(pair.key);
+                }
+            }, this);
+        }
+        if (PowerTimer.rightPaddlePowers.size() > 0)
+        {
+            PowerTimer.rightPaddlePowers.each(function(pair)
+            {
+                if (pair.value[0] + POWER_LIFETIME <= this.startTime)
+                {
+                    pair.value[1]();
+                    PowerTimer.rightPaddlePowers.unset(pair.key);
+                }
+            }, this);
+        }
     }
 });
