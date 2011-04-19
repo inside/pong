@@ -14,16 +14,6 @@ var Ball = Class.create(Projectile,
         $super();
 
         this.handlePaddleRebound();
-
-        if (this.hitsLeftWall())
-        {
-            this.container.rightPlayer.updateScore();
-        }
-        else if (this.hitsRightWall())
-        {
-            this.container.leftPlayer.updateScore();
-        }
-
         this.setPosition(this.x, this.y);
     },
     handlePaddleRebound: function()
@@ -33,12 +23,14 @@ var Ball = Class.create(Projectile,
             this.x = this.container.leftPaddle.x + this.container.leftPaddle.width;
             this.reboundsOnPaddle(this.container.leftPaddle);
             this.setVelocity(this.getUnitVector(this.vX, this.vY));
+            this.container.leftPlayer.updateScore();
         }
         else if (this.hitsRightPaddle())
         {
             this.x = this.container.rightPaddle.x - this.width;
             this.reboundsOnPaddle(this.container.rightPaddle);
             this.setVelocity(this.getUnitVector(this.vX, this.vY));
+            this.container.rightPlayer.updateScore();
         }
     },
     reboundsOnPaddle: function(paddle)
