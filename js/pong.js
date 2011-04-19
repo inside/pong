@@ -11,9 +11,12 @@ var Pong = Class.create(
     rightPlayer                    : null,
     projectiles                    : [],
     projectileIncrementalId        : 0,
-    availableWeightedProjectiles   : [['paddle-speed-power', 15],
-                                        ['opponents-paddle-speed-power', 15],
-                                        ['ball', 70]],
+    availableWeightedProjectiles   : [
+                                        ['paddle-speed-power', 10],
+                                        ['opponents-paddle-speed-power', 10],
+                                        ['paddle-height-power', 10],
+                                        ['ball', 70]
+                                     ],
     paused                         : false,
     started                        : false,
     fireProjectileTime             : 0,     // time
@@ -226,6 +229,13 @@ var Pong = Class.create(
                 break;
             case 'opponents-paddle-speed-power':
                 projectile = new OpponentsPaddleSpeedPower(
+                {
+                    'container' : this,
+                    'id'        : id
+                });
+                break;
+            case 'paddle-height-power':
+                projectile = new PaddleHeightPower(
                 {
                     'container' : this,
                     'id'        : id

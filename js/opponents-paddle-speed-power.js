@@ -15,12 +15,12 @@ var OpponentsPaddleSpeedPower = Class.create(Projectile,
         if (this.paddleSpeed > PADDLE_INITIAL_SPEED)
         {
             this.domElement.insert({bottom: '<span>speed + 1 on opponent</span>'});
-            this.domElement.addClassName('opponents-paddle-speed-power bonus');
+            this.domElement.addClassName('opponents-paddle-speed-power opponent bonus');
         }
         else
         {
             this.domElement.insert({bottom: '<span>speed - 1 on opponent</span>'});
-            this.domElement.addClassName('opponents-paddle-speed-power malus');
+            this.domElement.addClassName('opponents-paddle-speed-power opponent malus');
         }
     },
     move: function($super)
