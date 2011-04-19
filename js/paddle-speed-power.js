@@ -31,11 +31,15 @@ var PaddleSpeedPower = Class.create(Projectile,
         {
             this.container.leftPaddle.speed = this.paddleSpeed;
             this.diesNow = true;
+            PowerTimer.leftPaddlePowers.set('paddle-speed-power',
+                [Helper.getTime(), this.container.leftPaddle.resetSpeed.bind(this.container.leftPaddle)]);
         }
         else if (this.hitsRightPaddle())
         {
             this.container.rightPaddle.speed = this.paddleSpeed;
             this.diesNow = true;
+            PowerTimer.rightPaddlePowers.set('paddle-speed-power',
+                [Helper.getTime(), this.container.rightPaddle.resetSpeed.bind(this.container.rightPaddle)]);
         }
 
         this.setPosition(this.x, this.y);

@@ -98,6 +98,9 @@ var Pong = Class.create(
             }
         }
 
+        // Power timer
+        this.handlePowerTimer();
+
         // Score
         if (this.leftPlayer.hasReachedScore(MAX_SCORE))
         {
@@ -238,5 +241,30 @@ var Pong = Class.create(
     needsNewProjectile: function()
     {
         return this.fireProjectileTime <= this.startTime;
+    },
+    handlePowerTimer: function()
+    {
+        if (PowerTimer.leftPaddlePowers.size() > 0)
+        {
+            PowerTimer.leftPaddlePowers.each(function(pair)
+            {
+                if (pair.value[0] + POWER_LIFETIME <= this.startTime)
+                {
+                    pair.value[1]();
+                    PowerTimer.leftPaddlePowers.unset(pair.key);
+                }
+            }, this);
+        }
+        if (PowerTimer.rightPaddlePowers.size() > 0)
+        {
+            PowerTimer.rightPaddlePowers.each(function(pair)
+            {
+                if (pair.value[0] + POWER_LIFETIME <= this.startTime)
+                {
+                    pair.value[1]();
+                    PowerTimer.rightPaddlePowers.unset(pair.key);
+                }
+            }, this);
+        }
     }
 });
