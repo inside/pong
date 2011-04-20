@@ -40,6 +40,11 @@ h1
     left: -10px;
 }
 
+.projectile.opponent span
+{
+    left: -40px;
+}
+
 .ball
 {
     background-color: #fff;
