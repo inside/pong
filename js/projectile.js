@@ -1,9 +1,7 @@
 var Projectile = Class.create(Equipement,
 {
-    speed         : null,
     vX            : null,
     vY            : null,
-    direction     : 'random', // random, left, right
     creationTime  : 0, // milliseconds timestamp
     lifeTime      : PROJECTILES_DEFAULT_LIFETIME, // milliseconds
     diesIn        : 0, // milliseconds timestamp
@@ -84,30 +82,18 @@ var Projectile = Class.create(Equipement,
     getInitialUnitVector: function()
     {
         var y = Math.round(Math.random() * 10) /  10; // random between 0 and 1
+        var x = 1;
 
         if (Math.round(Math.random())) // 50% of the time, go downwards
         {
             y *= -1;
         }
-        if (this.direction === 'random')
+        if (Math.round(Math.random()))
         {
-            var x = 1;
+            x *= -1;
+        }
 
-            if (Math.round(Math.random()))
-            {
-                x *= -1;
-            }
-
-            return Vector.create([x, y]).toUnitVector();
-        }
-        else if (this.direction === 'left')
-        {
-            return Vector.create([-1, y]).toUnitVector();
-        }
-        else if (this.direction === 'right')
-        {
-            return Vector.create([1, y]).toUnitVector();
-        }
+        return Vector.create([x, y]).toUnitVector();
     },
     getUnitVector: function(vX, vY)
     {
