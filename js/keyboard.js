@@ -12,12 +12,12 @@ var Keyboard = Class.create(
             pong.leftPaddle.isGoingUp   = false;
             pong.leftPaddle.isGoingDown = true;
         }
-        else if (event.keyCode == Event.KEY_UP)
+        else if (event.keyCode == Event.KEY_UP) // up arrow
         {
             pong.rightPaddle.isGoingUp   = true;
             pong.rightPaddle.isGoingDown = false;
         }
-        else if (event.keyCode == Event.KEY_DOWN)
+        else if (event.keyCode == Event.KEY_DOWN) // down arrow
         {
             pong.rightPaddle.isGoingUp   = false;
             pong.rightPaddle.isGoingDown = true;
@@ -33,19 +33,19 @@ var Keyboard = Class.create(
         {
             pong.leftPaddle.isGoingDown = false;
         }
-        else if (event.keyCode == Event.KEY_UP)
+        else if (event.keyCode == Event.KEY_UP) // up arrow
         {
             pong.rightPaddle.isGoingUp = false;
         }
-        else if (event.keyCode == Event.KEY_DOWN)
+        else if (event.keyCode == Event.KEY_DOWN) // down arrow
         {
             pong.rightPaddle.isGoingDown = false;
         }
-        else if (event.keyCode == 80) // P pause
+        else if (event.keyCode == 80) // p pause
         {
             pong.togglePause();
         }
-        else if (event.keyCode == 83) // S stop
+        else if (event.keyCode == 83) // s stop
         {
             pong.stop();
         }

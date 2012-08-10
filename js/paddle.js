@@ -45,7 +45,7 @@ var Paddle = Class.create(Equipement,
 
         if (y <= 0)
         {
-            this.y = 0
+            this.y = 0;
         }
         else
         {
